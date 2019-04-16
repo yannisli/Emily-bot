@@ -300,3 +300,11 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+*.env*
+*.zip
+
+*/build
+*eslintrc.json
+*.gitignore
+jsconfig.json

@@ -1,0 +1,30 @@
+@import './variables.scss';
+
+.dashboard-root {
+    @extend %root;
+}
+
+.dashboard-selection {
+    @extend %button;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    width: 256px;
+    margin-bottom: 1px;
+
+    min-height: 40px;
+}
+
+.dashboard-list-avatar {
+    width: 3vmin;
+    height: 3vmin;
+    min-width: 32px;
+    min-height: 32px;
+    border-radius: 50%;
+    text-align: center;
+    font-size: $fontSize;
+    font-weight: 300;
+    margin-right: 4px;
+    background-color: $primaryColor;
+}

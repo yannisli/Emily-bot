@@ -1,0 +1,103 @@
+@import "./variables.scss";
+
+
+
+.navbar {
+    height: calc(#{$navHeight} - 1px);
+    background-color: $secondaryColor;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    border-bottom: 1px solid $backgroundColor;
+}
+
+.navbar-container {
+    min-width: 30%;
+    margin-right: 15%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.navbar-button {
+    @extend %text-button;
+
+    height: $navHeight;
+    line-height: $navHeight;
+    padding: 0px 10px;
+}
+
+.navbar-button-active {
+    @extend .navbar-button;
+    border-bottom: 2px solid $textButtonColor-hover;
+}
+
+.navbar-button-active:hover {
+    color: $textButtonColor-hover;
+}
+
+.avatar {
+
+    display: inline-block;
+    width: $avatarSize;
+    height: $avatarSize;
+    border-radius: 50%;
+    margin-left: auto;
+    margin-right: 2px;
+}
+
+
+.usercard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    color: white;
+    height: $navHeight;
+}
+
+.usercard-dropdown-container {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: $backgroundColor;
+    border-radius: 5px;
+    width: 236px;
+    max-width: 236px;
+    padding: 10px 10px;
+    top: $navHeight;
+    transform: translateX(-118px);
+}
+
+.usercard-dropdown-header {
+    font-size: calc(10px + 0.25vmin);
+    color: lightgray;
+}
+
+.usercard-user {
+    color: white;
+}
+.usercard-discriminator {
+    @extend .usercard-dropdown-header;
+    color: gray;
+}
+
+.usercard-logout {
+    @extend %text-button;
+
+    color: $errorColor;
+    line-height: $fontSize;
+    height: $fontSize;
+    padding: 0;
+}
+
+.usercard-logout:hover {
+    color: $errorColor-hover;
+    border-bottom: 1px solid currentColor;
+    height: calc(#{$fontSize} - 1px);
+}
