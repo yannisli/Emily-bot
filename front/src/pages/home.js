@@ -48,7 +48,7 @@ class Home extends Component {
                     </div>
 
                     <header className="home-header">
-                        Created by
+                        Author
                     </header>
                     <div className="home-contents">
                         <img src={authorLogo} alt="" className="home-avatar"/>
