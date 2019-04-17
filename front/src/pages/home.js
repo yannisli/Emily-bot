@@ -80,6 +80,10 @@ class Home extends Component {
         
         </div>
     }
+
+    componentDidMount() {
+        document.title = "Emily | Home";
+    }
 }
 
 export default Home;

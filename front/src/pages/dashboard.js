@@ -58,6 +58,9 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
+
+        document.title = "Emily | Dashboard";
+        
         this.props.dispatch({type: "LOADING_GUILDS"});
 
         fetch(`/api/discord/@me/guilds`).then(res => {

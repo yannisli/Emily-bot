@@ -66,6 +66,7 @@ class GuildBoard extends Component {
         if(!this.props.Guild)
             throw new Error("GuildBoard was not assigned a Guild prop.");
         // Fetch!
+        document.title = `Emily | ${this.props.Guild.name}`;
         this.props.dispatch({type: "CORE_GUILD_LOADING"});
         fetch(`/api/discord/guild/${this.props.Guild.id}`).then(res => {
 
