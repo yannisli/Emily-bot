@@ -50,8 +50,10 @@ class Dashboard extends Component {
             
             <div className="dashboard-outer">
                 <div className="dashboard-inner">
-                    {!this.props.Loading && <Announcement/>}
-                    {innerContents}
+                    <div className="dashboard-container">
+                        {!this.props.Loading && <Announcement/>}
+                        {innerContents}
+                    </div>
                 </div>
             </div>
         </div>;

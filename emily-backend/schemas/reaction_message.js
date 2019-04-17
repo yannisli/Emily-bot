@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 
 let roleSchema = mongoose.Schema({
-    emoji: { type: String, unique: true },
+    emoji: String,
     role: String
 }, {_id: false});
 const MessageSchema = new Schema(

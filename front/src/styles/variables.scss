@@ -2,6 +2,7 @@ $primaryColor: #282B30;
 $secondaryColor: #202225;
 $foregroundColor: #26262B;
 $backgroundColor: #18191C;
+$outlineColor: #101010;
 $errorColor: #F04747;
 $errorColor-hover: #A33030;
 
@@ -14,6 +15,7 @@ $textButtonColor-hover: #33AAB3;
 $navHeight: calc(32px + 2vmin);
 
 $avatarSize: calc(32px + 1vmin);
+$subheaderSize: calc(10px + 1.4vmin);
 
 
 $fontSize: calc(10px + 0.6vmin);
@@ -31,6 +33,7 @@ $headerSize: calc(10px + 4vmin);
     background-color: $secondaryColor;
     color: white;
     min-height: 100vh;
+    width: 100vw;
     font-family: 'Roboto';
 }
 
@@ -93,26 +96,35 @@ $headerSize: calc(10px + 4vmin);
     height: calc(100vh - #{$navHeight});
     
     flex-direction: column;
-    align-items: center;
+    justify-content: flex-start;
+    align-content: flex-start;
+    align-items: flex-start;
     overflow: hidden;
    
     margin: auto;
-    width: 80vw;
+    width: 90vw;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 
 %inner-container {
     @extend %flex-box;
     flex-direction: column;
+    align-content: center;
     align-items: center;
-    width: 80vw;
-    padding-right: 20px;
-    overflow-y: scroll;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    padding-right: 17px;
+    overflow-x: hidden;
+    overflow-y: overlay;
     -webkit-align-self: flex-start;
     align-self: flex-start;
     height: 100%;
     box-sizing: content-box;
 }
+
 
 .announcement-box {
     margin-top: 2vh;

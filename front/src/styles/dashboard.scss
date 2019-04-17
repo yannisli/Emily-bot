@@ -61,6 +61,12 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
 
 .dashboard-inner {
     @extend %inner-container;
+    
+}
+
+.dashboard-container {
+    @extend %flex-box;
+
     -webkit-flex-direction: row;
     flex-direction: row;
     flex-wrap: wrap;

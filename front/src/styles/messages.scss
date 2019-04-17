@@ -1,0 +1,68 @@
+
+@import './variables.scss';
+
+$emojiSize: calc(10px + 1.3vmax);
+.message-emoji {
+    width: $emojiSize;
+    height: $emojiSize;
+    max-width: 32px;
+    max-height: 32px;
+    vertical-align: middle;
+}
+
+.messages-container {
+
+    @extend %flex-box;
+
+    width: 100%;
+    vertical-align: middle;
+
+}
+
+.message-container {
+    @extend %flex-box;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    background-color: $backgroundColor;
+    border-radius: 5px;
+    padding: 10px;
+    width: calc(100% - 22px);
+    border: 1px solid $outlineColor;
+    margin-top: 10px;
+
+}
+
+.message-contents {
+    background-color: $primaryColor;
+    padding: 10px;
+    border-radius: 5px;
+    width: calc(100% - 20px);
+    margin-top: 10px;
+
+    font-size: $fontSize;
+    
+}
+
+.message-avatar {
+    width: $avatarSize;
+    height: $avatarSize;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.message-author {
+    font-weight: 100;
+    font-size: $subheaderSize;
+    word-wrap: break-word;
+    width: calc(100% - #{$avatarSize} - 20px);
+}
+
+$discrimHeight: calc(#{$subheaderSize} - 1vmin);
+.message-discriminator {
+    font-weight: 100;
+    font-size: $discrimHeight;
+    line-height: $subheaderSize;
+    color: grey;
+}
