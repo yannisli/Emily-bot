@@ -61,7 +61,7 @@ $headerSize: calc(10px + 4vmin);
     border-radius: 4px;
     transition: background-color .1s linear;
     text-decoration: none;
-    height: $fontSize;
+    height: fit-content;
     line-height: $fontSize;
     padding: 10px 20px;
 }

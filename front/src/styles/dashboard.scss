@@ -16,7 +16,8 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    width: 254px;
+    width: calc(100% - 10px);
+    max-width: 254px;
     margin: 1px;
     height: $listHeight;
     border: 1px solid $buttonColor-hover;
@@ -25,7 +26,6 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     padding: 4px;
     flex-grow: 0;
     flex-shrink: 0;
-    flex-basis: 254px;
 }
 
 

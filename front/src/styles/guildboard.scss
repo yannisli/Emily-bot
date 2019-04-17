@@ -38,14 +38,3 @@
 
     padding: 10px 20px;
 }
-
-.board-button-disabled {
-    @extend .board-button;
-
-    border-style: dashed;
-    cursor: auto;
-}
-
-.board-button-disabled:hover {
-    background-color: inherit;
-}

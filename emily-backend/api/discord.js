@@ -31,12 +31,19 @@ router.get("/@me/guilds", CatchAsync(async (req, res) => {
         res.sendStatus(401);
         return;
     }
-    const guilds = await DiscordGet(`https://discordapp.com/api/users/@me/guilds`, `Bearer ${tokens.access_token}`);
+    let guilds = await DiscordGet(`https://discordapp.com/api/users/@me/guilds`, `Bearer ${tokens.access_token}`);
 
     if(typeof(guilds) !== "object")
         res.sendStatus(guilds);
-    else
+    else {
+        // Guilds is an array
+        guilds.sort((a, b) => {
+            let aN = a.name.toLowerCase();
+            let bN = b.name.toLowerCase();
+            return aN > bN ? 1 : (bN > aN) ? - 1 : 0;
+        });
         res.status(200).json(guilds);
+    }
 }));
 
 router.get("/guild/:id", CatchAsync(async (req, res) => {
