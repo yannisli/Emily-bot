@@ -8,6 +8,7 @@ const initialState = {
     selectedGuildData: null,
     loadingGuild: false,
     loadedGuild: false,
+    redirecting: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,6 +16,14 @@ const reducer = (state = initialState, action) => {
     let newState = Object.assign({}, state);
 
     switch(action.type) {
+        case "BOT_REDIRECT_DONE": {
+            newState.redirecting = false;
+            return newState;
+        }
+        case "BOT_REDIRECT_CLICKED": {
+            newState.redirecting = true;
+            return newState;
+        }
         case "CORE_GUILD_LOADED": {
             newState.loadingGuild = false;
             newState.loadedGuild = true;
@@ -22,6 +31,7 @@ const reducer = (state = initialState, action) => {
             return newState;
         }
         case "CORE_GUILD_LOADING": {
+            newState.redirecting = false;
             newState.loadingGuild = true;
             newState.loadedGuild = false;
             newState.selectedGuildData = null;

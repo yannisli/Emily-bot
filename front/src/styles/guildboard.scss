@@ -15,15 +15,27 @@
     padding: 1vmin 2vmin;
 }
 
+$subheaderSize: calc(10px + 1.4vmin);
+.board-subheader {
+    @extend %header;
+
+    font-size: $subheaderSize;
+}
+
 .board-error {
     @extend .announcement-box;
 
     width: calc(100% - 42px);
+    flex-basis: calc(100% - 42px);
     background-color: inherit;
     border: 1px solid $errorColor;
     text-align: center;
     padding: 30px 20px;
     max-width: 33vw;
+    font-size: $subheaderSize;
+    font-family: 'Roboto';
+    font-weight: 100;
+
 }
 
 .board-button {
@@ -36,5 +48,10 @@
     background-color: inherit;
     border: 1px solid $buttonColor;
 
+    font-size: $subheaderSize;
+    line-height: $subheaderSize;
+    font-weight: 100;
     padding: 10px 20px;
+    margin-top: 5px;
+    font-family: 'Roboto';
 }

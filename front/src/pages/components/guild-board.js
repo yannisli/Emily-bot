@@ -17,6 +17,38 @@ let RootHeader = props => {
 }
 
 class GuildBoard extends Component {
+    constructor(props) {
+        super(props);
+
+        this.handleBotAddClick = this.handleBotAddClick.bind(this);
+        this.fetchGuildInfo = this.fetchGuildInfo.bind(this);
+        this.handleBotRedirectDone = this.handleBotRedirectDone.bind(this);
+    }
+
+    fetchGuildInfo() {
+        this.props.dispatch({type: "CORE_GUILD_LOADING"});
+        fetch(`/api/discord/guild/${this.props.Guild.id}`).then(res => {
+
+            if(!res.ok)
+            {
+                console.error(res.status);
+                this.props.dispatch({type: "CORE_GUILD_LOADED", data: null});
+            }
+            else
+            {
+                res.json().then(json => {
+                    this.props.dispatch({type: "CORE_GUILD_LOADED", data: json});
+                }).catch(err => console.error(err));
+            }
+        }).catch(err => console.error(err));
+    }
+    handleBotAddClick() {
+        this.props.dispatch({type: "BOT_REDIRECT_CLICKED"});
+    }
+    handleBotRedirectDone() {
+        this.props.dispatch({type: "BOT_REDIRECT_DONE"});
+        this.fetchGuildInfo();
+    }
     render() {
         if(!this.props.Guild)
             throw new Error("GuildBoard was not assigned a Guild prop");
@@ -38,7 +70,10 @@ class GuildBoard extends Component {
                 let button;
 
                 if(admin)
-                    button = <div className="board-button">We can fix that though</div>;
+                    if(!this.props.Redirecting)
+                        button = <a onClick={this.handleBotAddClick} rel="noopener noreferrer" target="_blank" href={`https://discordapp.com/api/oauth2/authorize?client_id=272421186166587393&permissions=8&scope=bot`} className="board-button">We can fix that though</a>;
+                    else
+                        button = [<div key="redirdiv" className="board-subheader">Redirecting you to Discord...</div>, <div key="redirbutton" onClick={this.handleBotRedirectDone} className="board-button">{`All done?`}</div>]
                 else
                     button = <div className="board-error">Hmmm..<br/>{`You don't have admin rights to add me either, sorry...`}</div>
                 return <RootHeader name={this.props.Guild.name}>
@@ -67,21 +102,7 @@ class GuildBoard extends Component {
             throw new Error("GuildBoard was not assigned a Guild prop.");
         // Fetch!
         document.title = `Emily | ${this.props.Guild.name}`;
-        this.props.dispatch({type: "CORE_GUILD_LOADING"});
-        fetch(`/api/discord/guild/${this.props.Guild.id}`).then(res => {
-
-            if(!res.ok)
-            {
-                console.error(res.status);
-                this.props.dispatch({type: "CORE_GUILD_LOADED", data: null});
-            }
-            else
-            {
-                res.json().then(json => {
-                    this.props.dispatch({type: "CORE_GUILD_LOADED", data: json});
-                }).catch(err => console.error(err));
-            }
-        }).catch(err => console.error(err));
+        this.fetchGuildInfo();
     }
 }
 
@@ -89,6 +110,7 @@ export default connect(state => {
     return {
         Loading: state.core.loadingGuild,
         Loaded: state.core.loadedGuild,
-        GuildData: state.core.selectedGuildData
+        GuildData: state.core.selectedGuildData,
+        Redirecting: state.core.redirecting
     };
 })(GuildBoard);
