@@ -60,8 +60,8 @@ class Home extends Component {
                             <div className="home-social-container">
                                 <div className="home-social-header">Social Media</div>
                                 
-                                <img src={twitterBird} alt="" className="home-logo-smaller"/>
-                                <img src={twitchLogo} alt="" className="home-logo-smaller"/>
+                                <a href="https://twitter.com/Eminanoka"><img src={twitterBird} alt="" className="home-logo-smaller"/></a>
+                                <a href="https://twitch.tv/evanescentsnow"><img src={twitchLogo} alt="" className="home-logo-smaller"/></a>
                                 
                             </div>
                         </div>
