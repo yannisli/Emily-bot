@@ -36,7 +36,6 @@ const validateSnowflake = snowflake => {
 
     if(Array.isArray(snowflake))
     {
-        console.log("Is Array");
         for(let i = 0 ; i < snowflake.length; i++)
         {
             for(let j = 0; j < snowflake[i].length; j++)
@@ -44,7 +43,6 @@ const validateSnowflake = snowflake => {
                 
                 let int = parseInt(snowflake[i][j], 10);
                 if(isNaN(int)) {
-                    console.log("This is not valid!", i, j, snowflake[i][j], int, snowflake[i]);
                     return false;
                 }
             }
@@ -57,7 +55,7 @@ const validateSnowflake = snowflake => {
     for(let i = 0; i < snowflake.length; i++)
     {
         let int = parseInt(snowflake[i], 10);
-        if(!int || isNaN(int))
+        if(isNaN(int))
             return false;
     }
 

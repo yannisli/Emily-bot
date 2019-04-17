@@ -2,49 +2,51 @@ import React, { Component } from 'react';
 
 import { connect } from 'react-redux';
 
+import { Redirect, withRouter } from 'react-router-dom';
+
 import NavBar from '../components/navbar';
 
 import '../styles/dashboard.scss';
 
 import loading from '../images/loading.svg';
 
+import GuildList from './components/guild-list';
+
+import GuildBoard from './components/guild-board';
+
+
+
 class Dashboard extends Component {
 
     render() {
-
         let innerContents;
-
-        if(this.props.Loading)
-        {
-            innerContents = [<div key="Loading-div">Loading guild information...</div>,<img alt="Loading" key="loadingsvg" src={loading}/>];
-        }
-        else if(this.props.Loaded)
-        {
-            innerContents = [];
+        if(!this.props.location.pathname.includes("guild")) {
             
-            for(let i = 0; i < this.props.Guilds.length; i++)
+
+            if(this.props.Loading)
             {
-                let avatar;
+                innerContents = [<div key="Loading-div">Loading guild information...</div>,<img alt="Loading" key="loadingsvg" src={loading}/>];
+            }
+            else if(this.props.Loaded)
+            {
+                innerContents = <GuildList Guilds={this.props.Guilds}/>;
                 
-                if(this.props.Guilds[i].icon !== null)
-                    avatar = <img alt="?" className="dashboard-list-avatar" src={`https://cdn.discordapp.com/icons/${this.props.Guilds[i].id}/${this.props.Guilds[i].icon}.png`}/>
-                else
-                    avatar = <div className="dashboard-list-avatar">{this.props.Guilds[i].name.substr(0,1)}</div>
-                let element = <div className="dashboard-selection" key={`guild${i}`}>
-                    {avatar}
-                    <span>
-                        {this.props.Guilds[i].name}
-                    </span>
-                
-                </div>
-                innerContents.push(element);
             }
             
         }
+        else
+        {
+            let id = this.props.location.pathname.split("/");
+            id = id[id.length-1];
+            if(this.props.Selected === null || this.props.Guilds[this.props.Selected].id !== id)
+                return <Redirect to="/dashboard"/>;
+            innerContents = <GuildBoard Guild={this.props.Guilds[this.props.Selected]}/>;
+        }
+
         return <div className="dashboard-root">
             <NavBar/>
-            <div className="home-outer">
-                <div className="home-inner">
+            <div className="dashboard-outer">
+                <div className="dashboard-inner">
                     {innerContents}
                 </div>
             </div>
@@ -69,10 +71,11 @@ class Dashboard extends Component {
     }
 }
 
-export default connect(state => {
+export default withRouter(connect(state => {
     return {
         Guilds: state.core.guilds,
+        Selected: state.core.selectedGuild,
         Loading: state.core.loadingGuilds,
         Loaded: state.core.loadedGuilds
     }
-})(Dashboard);
+})(Dashboard));

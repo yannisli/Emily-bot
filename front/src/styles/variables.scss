@@ -84,3 +84,29 @@ $headerSize: calc(10px + 4vmin);
 %text-button:hover {
     color: $textButtonColor-hover;
 }
+
+%outer-container {
+    @extend %flex-box;
+    height: calc(100vh - #{$navHeight});
+    
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+   
+    margin: auto;
+    width: 80vw;
+}
+
+
+%inner-container {
+    @extend %flex-box;
+    flex-direction: column;
+    align-items: center;
+    width: 80vw;
+    padding-right: 20px;
+    overflow-y: scroll;
+    -webkit-align-self: flex-start;
+    align-self: flex-start;
+    height: 100%;
+    box-sizing: content-box;
+}

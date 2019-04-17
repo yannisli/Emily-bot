@@ -4,6 +4,7 @@ let initialState = {
     showCard: false,
     loadingGuilds: false,
     loadedGuilds: false,
+    selectedGuild: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -11,6 +12,10 @@ const reducer = (state = initialState, action) => {
     let newState = Object.assign({}, state);
 
     switch(action.type) {
+        case "GUILD_SELECTED": {
+            newState.selectedGuild = action.data;
+            return newState;
+        }
         case "GUILDS_FETCHED": {
             newState.guilds = action.data;
             newState.loadingGuilds = false;

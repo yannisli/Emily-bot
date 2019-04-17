@@ -4,6 +4,10 @@
     @extend %root;
 }
 
+$listHeight: calc(32px + 5vmin);
+$selectionSize: calc(10px + 0.8vmin);
+$avatarPlaceholderSize: calc(10px + 1.6vmin);
+
 .dashboard-selection {
     @extend %button;
     display: flex;
@@ -11,20 +15,42 @@
     align-items: center;
     justify-content: flex-start;
     width: 256px;
+    margin: 0;
     margin-bottom: 1px;
-
-    min-height: 40px;
+    height: $listHeight;
+    font-size: $selectionSize;
+    font-weight: 400;
+    padding: 4px;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
 
 .dashboard-list-avatar {
-    width: 3vmin;
-    height: 3vmin;
+    width: $listHeight;
+    height: $listHeight;
+    line-height: $listHeight;
     min-width: 32px;
     min-height: 32px;
     border-radius: 50%;
     text-align: center;
-    font-size: $fontSize;
-    font-weight: 300;
+    font-size: $avatarPlaceholderSize;
+    font-weight: 100;
     margin-right: 4px;
     background-color: $primaryColor;
+    flex-shrink: 0;
+    flex-grow: 0;
+}
+
+
+.dashboard-outer {
+    @extend %outer-container;
+}
+
+.dashboard-inner {
+    @extend %inner-container;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-around;
 }

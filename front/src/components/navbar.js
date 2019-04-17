@@ -8,7 +8,6 @@ import '../styles/navbar.scss';
 
 import UserCard from './usercard';
 
-// eslint-ignore
 class NavBar extends Component {
 
     
