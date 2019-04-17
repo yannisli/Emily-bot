@@ -2,7 +2,7 @@ const express = require("express");
 
 const { GetUserTokens } = require("./oauth2");
 
-const { CatchAsync, DiscordGet } = require("../utils");
+const { CatchAsync, DiscordGet, ValidateSnowflake } = require("../utils");
 
 const router = express.Router();
 
@@ -39,6 +39,25 @@ router.get("/@me/guilds", CatchAsync(async (req, res) => {
         res.status(200).json(guilds);
 }));
 
+router.get("/guild/:id", CatchAsync(async (req, res) => {
+    if(!await GetUserTokens(req, res))
+    {
+        res.sendStatus(401);
+        return;
+    }
+    let guild_id = req.params.id;
+
+    if(!ValidateSnowflake(guild_id))
+    {
+        res.sendStatus(400);
+        return;
+    }
+    let guild = await DiscordGet(`https://discordapp.com/api/guilds/${guild_id}`);
+    if(typeof(guild) !== "object")
+        res.sendStatus(guild);
+    else
+        res.status(200).json(guild);
+}));
 router.get("*", (req, res) => res.sendStatus(404));
 
 module.exports = router;

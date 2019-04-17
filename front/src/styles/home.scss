@@ -21,18 +21,6 @@
     padding: 1vmin 0;
 }
 
-.home-announcement-box {
-    margin-top: 2vh;
-    border-radius: 5px;
-    background-color: $errorColor;
-    padding: 20px;
-    color: white;
-    font-weight: 400;
-    font-size: calc(10px + 0.75vmin);
-    font-family: 'Roboto';
-    font-weight: 300;
-    margin-bottom: 10px;
-}
 
 .home-contents {
     @extend %flex-box;

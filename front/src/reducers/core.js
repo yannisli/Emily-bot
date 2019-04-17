@@ -1,10 +1,13 @@
-let initialState = {
+const initialState = {
     user: null,
     guilds: null,
     showCard: false,
     loadingGuilds: false,
     loadedGuilds: false,
     selectedGuild: null,
+    selectedGuildData: null,
+    loadingGuild: false,
+    loadedGuild: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -12,11 +15,23 @@ const reducer = (state = initialState, action) => {
     let newState = Object.assign({}, state);
 
     switch(action.type) {
+        case "CORE_GUILD_LOADED": {
+            newState.loadingGuild = false;
+            newState.loadedGuild = true;
+            newState.selectedGuildData = action.data;
+            return newState;
+        }
+        case "CORE_GUILD_LOADING": {
+            newState.loadingGuild = true;
+            newState.loadedGuild = false;
+            newState.selectedGuildData = null;
+            return newState;
+        }
         case "GUILD_SELECTED": {
             newState.selectedGuild = action.data;
             return newState;
         }
-        case "GUILDS_FETCHED": {
+        case "GUILDS_LOADED": {
             newState.guilds = action.data;
             newState.loadingGuilds = false;
             newState.loadedGuilds = true;

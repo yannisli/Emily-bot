@@ -10,20 +10,24 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
 
 .dashboard-selection {
     @extend %button;
+
+    background-color: $backgroundColor;
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    width: 256px;
-    margin: 0;
-    margin-bottom: 1px;
+    width: 254px;
+    margin: 1px;
     height: $listHeight;
+    border: 1px solid $buttonColor-hover;
     font-size: $selectionSize;
     font-weight: 400;
     padding: 4px;
     flex-grow: 0;
     flex-shrink: 0;
+    flex-basis: 254px;
 }
+
 
 .dashboard-list-avatar {
     width: $listHeight;
@@ -51,6 +55,7 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     -webkit-flex-direction: row;
     flex-direction: row;
     flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-around;
+    align-items: flex-start;
+    justify-content: space-evenly;
+    align-content: flex-start;
 }

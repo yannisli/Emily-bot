@@ -31,21 +31,22 @@ router.get("/guild/:id", CatchAsync(async (req, res) => {
     }
 
     let id = req.params.id;
-    console.log(id);
-    // Get from MongoDB
-    let messages = await msgs.find({guild: id}).exec();
+
     // Get Channels of the Guild
     let channels = await DiscordGet(`https://discordapp.com/api/guilds/${id}/channels`);
     if(typeof(channels) !== "object") {
-        res.sendStatus(channels);
+        res.status(channels).json({error: "The bot is not in this selected guild"});
         return;
     }
     // Get Roles of the Guild
-    let roles = await DiscordGet(`https://discordapp.com/api/guilds/${id}/roles`);
+    // Deprecated, discord/guild/:id returns an array of Role objects
+    /*let roles = await DiscordGet(`https://discordapp.com/api/guilds/${id}/roles`);
     if(typeof(roles) !== "object") {
         res.sendStatus(channels);
         return;
-    }
+    }*/
+    // Get from MongoDB
+    let messages = await msgs.find({guild: id}).exec();
     // Loop through registered messages and get their message contents and etc from Discord API
     let messageObj = {};
     if(messages.length > 0) {
@@ -82,7 +83,7 @@ router.get("/guild/:id", CatchAsync(async (req, res) => {
 
     }
     // Loop through roles and have it as a Map instead
-    let roleObj = {};
+    /*let roleObj = {};
     for(let i = 0; i < roles.length; i++)
     {
         roleObj[roles[i].id] = {
@@ -91,7 +92,7 @@ router.get("/guild/:id", CatchAsync(async (req, res) => {
             color: roles[i].color,
             name: roles[i].name
         };
-    }
+    }*/
     // Loop through channels and remove the ones that are a voice channel
     let chObj = {};
     for(let i = 0; i < channels.length; i++)
@@ -104,7 +105,7 @@ router.get("/guild/:id", CatchAsync(async (req, res) => {
     }
 
     res.status(200).json({
-        Roles: roleObj,
+        //Roles: roleObj,
         Channels: chObj,
         Messages: messageObj
     });

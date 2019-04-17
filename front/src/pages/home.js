@@ -15,6 +15,8 @@ import twitchLogo from '../images/twitch.svg';
 
 import NavBar from '../components/navbar';
 
+import Announcement from '../components/announcement';
+
 class Home extends Component {
 
     render() {
@@ -23,9 +25,7 @@ class Home extends Component {
             <NavBar/>
             <div className="home-outer">
                 <div className="home-inner">
-                    <div className="home-announcement-box">
-                        Hi, currently this bot is under active development so a lot of features may be buggy, missing, or outright not working. Please check again later for when the bot goes live into a live testing phase! Unfortunately, there is no ETA as to when the bot will go live with the core set of functionality implemented, sorry!
-                    </div>
+                    <Announcement/>
                     <header className="home-header">
                         Emily Bot
                     </header>

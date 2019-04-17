@@ -6,8 +6,10 @@ import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 
 import core from './reducers/core';
+import messages from './reducers/messages';
 let combined = combineReducers({
-    core: core
+    core: core,
+    messages: messages
 });
 
 let store = createStore(combined);
