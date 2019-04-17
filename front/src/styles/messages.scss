@@ -38,9 +38,9 @@ $emojiSize: calc(10px + 1.3vmax);
     background-color: $primaryColor;
     padding: 10px;
     border-radius: 5px;
-    width: calc(100% - 20px);
+    width: calc(100% - 22px);
     margin-top: 10px;
-
+    border: 1px solid $outlineColor;
     font-size: $fontSize;
     
 }

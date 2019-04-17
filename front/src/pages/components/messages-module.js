@@ -10,34 +10,151 @@ import '../../styles/messages.scss';
 
 const getHexaColor = color => typeof(color) === String ? color.parseInt(color, 10).toString(16) : color.toString(16);
 
+
+const AnimatedEmoji = props => {
+
+    let contents = [];
+    let regex = props.str.match(/<a:[A-Za-z0-9]*:[0-9]*>/g);
+
+    let remainder = props.str;
+
+    if(regex === null)
+        return <span>{props.str}</span>
+    else {
+
+        // Split the text
+        for(let i = 0; i < regex.length; i++)
+        {
+            if(remainder === undefined)
+                break;
+            let str = regex[i];
+            let expl = remainder.split(str);
+
+            let id = str.split(":");
+            console.log("ids", id);
+            id = id[2].substr(0, id[2].length-1);
+
+            let newlines = expl[0].split("\n");
+
+            if(newlines.length > 1)
+            {
+                contents.push(<span key={`animated${id}nlcont$0`}>{newlines[0]}</span>);
+                for(let j = 1; j < newlines.length; j++)
+                {
+                    contents.push(<br key={`animated${id}nl${j}`}/>);
+                    contents.push(<span key={`animated${id}nlcont${j}`}>{newlines[j]}</span>);
+                }
+            }
+            else
+                contents.push(<span key={`animated${id}remainder`}>{expl[0]}</span>)
+
+            contents.push(<img src={`https://cdn.discordapp.com/emojis/${id}.gif`} alt="" key={`animated${id}emoji`} className="message-emoji"/>);
+            if(expl.length >= 3)
+            {
+                let concat = expl[1];
+
+                for(let x = 2; x < expl.length; x++)
+                {
+                    concat += str;
+                    concat += expl[x];
+                }
+
+                remainder = concat;
+            } else
+            {
+                remainder = expl[1];
+            }
+        }
+    }
+
+    return contents;
+
+    
+}
+
 const RoleSpan = props => {
 
    
-    
+    let contents = [];
     let regex = props.str.match(/<@&[0-9]*>/g);
 
     if(regex !== null)
     {
-        console.log("Regex was not null", regex);
         // Explode based off of &
         // expl[1].substr(0, expl[1].length-1) is our role id
         let expl = props.str.split("<@&");
-        let id = expl[1].trim();
+        //let id = expl[1].trim();
+        
+        console.log(expl);
 
-        id = id.substr(0, id.length-1);
+        //id = id.substr(0, id.length-1);
 
-        console.log("Explode", expl);
-        console.log(`ID: ${id}E`);
 
-        // Look up through guild
+        let strBefore = expl[0];
+
+        let newlines = strBefore.split("\n");
+
+        if(newlines.length > 1) {
+
+            contents.push(<span key={`$rolespaninitialnl0`}>{newlines[0]}</span>);
+
+            for(let i = 1; i < newlines.length; i++)
+            {
+                contents.push(<br key={`rolespawninitialbr${i}`}/>);
+                contents.push(<AnimatedEmoji key={`rolespaninitialnl${i}`} str={newlines[i]}></AnimatedEmoji>);
+            }
+            
+        }
+        else // Evaluate for emoji
+            contents.push(<AnimatedEmoji key={`rolespaninitialbefore`} str={strBefore}></AnimatedEmoji>);
+
+       /* // Look up through guild
 
         for(let i = 0; i < props.Roles.length; i++)
         {
             if(props.Roles[i].id === id)
             {
-                return [<span key={`RoleSpan${id}bef`}>{expl[0]}</span>,<span key={`RoleSpawn${id}aft`} style={{color: `#${getHexaColor(props.Roles[i].color)}`}}>{props.Roles[i].name}</span>];
+                contents.push(...[<span key={`RoleSpan${id}bef`}>{strBefore}</span>,<span key={`RoleSpawn${id}aft`} style={{color: `#${getHexaColor(props.Roles[i].color)}`}}>{props.Roles[i].name}</span>]);
+                break;
+            }
+        }*/
+
+        if(expl.length > 1)
+        {
+            for(let i = 1; i < expl.length; i++)
+            {
+                let sub_id = expl[i].substr(0, expl[i].indexOf(">"));
+                let rest = expl[i].substr(expl[i].indexOf(">")+1);
+                console.log("sub_id: ", sub_id);
+                console.log("rest", rest);
+                for(let x = 0; x < props.Roles.length; x++)
+                {
+                    if(props.Roles[x].id === sub_id)
+                    {
+                        contents.push(<span key={`rolespan${sub_id}aft`} style={{color: `#${getHexaColor(props.Roles[x].color)}`}}>@{props.Roles[x].name}</span>);
+                        let newline = rest.split("\n");
+                        if(newline.length > 1)
+                        {
+                            contents.push(<span key={`rolespawn${sub_id}nlcontent0`}>{newline[0]}</span>)
+                            for(let j = 1; j < newline.length; j++)
+                            {
+                                contents.push(<br key={`rolespawn${sub_id}nl${j}`}/>);
+                                // Evaluate the content to see if there's an animated emoji
+                                contents.push(<AnimatedEmoji key={`rolespawn${sub_id}nlcontent${j}`} str={newline[j]}></AnimatedEmoji>);
+                            }
+                        }
+                        else {
+                            // Evaluate the content to see if there's an animated emoji
+                            contents.push(<AnimatedEmoji key={`rolespawn${sub_id}rest`} str={rest}></AnimatedEmoji>);
+                        }
+                        break;
+                    }
+                }
+                
             }
         }
+
+        return contents;
         
     }
     return <span>{props.str}</span>;
@@ -47,14 +164,23 @@ const Message = props => {
     if(!props.Message)
         throw new Error("Message was not assigned a Message prop");
     
+    /**
+     * Message returns the message-contents and parses the message for embeds, attachments, role mentions, emojis, and animated emojis and displays them accordingly
+     * 
+     * Check for animated emoji -> Remainder strings checked for role mentions -> Remainder strings from RoleSpan checked for AnimatedEmojis
+     * 
+     * 
+     */
     let contents = [];
-
+    // Regex matches for normal emoji
     let regex = props.Message.contents.match(/<:[A-Za-z0-9]*:[0-9]*>/g);
 
+    // Remainder of the contents we still need to parse
     let remainder = props.Message.contents;
-
+    // If we have regex matches
     if(regex !== null)
     {
+        // Loop through them
         for(let i = 0; i < regex.length; i++)
         {
             if(remainder === undefined)
@@ -66,9 +192,8 @@ const Message = props => {
 
             // Expl[0] is our string before encountering the Emoji.
             // If there's newlines in it, we need to add the according <br> tags
-            // We also must check within the contents if there is a Role mention to convert that into a proper representation
+            // We also must check within the contents if there is a Role mention or AnimatedEmoji to convert that into a proper representation
             let newlines = expl[0].split("\n");
-
             if(newlines.length > 1)
             {
                 contents.push(<RoleSpan Roles={props.Guild.roles} str={newlines[0]} key={`${i}msg${props.Message.id}nl0`}/>);
@@ -88,6 +213,7 @@ const Message = props => {
             // Push the emoji
             contents.push(<img alt="" key={`${i}msg${props.Message.id}emoji${i}`} src={`https://cdn.discordapp.com/emojis/${id[2].substr(0, id[2].length-1)}.png`} className="message-emoji"/>);
 
+            // We need to concatenate to properly represent the rest of the string we have not used parsed
             if(expl.length >= 3)
             {
                 let concat = expl[1];
@@ -106,7 +232,17 @@ const Message = props => {
         }
     }
 
+    // Push the remaining string, it will also be checked for Role mentions and Animated Emojis
     contents.push(<RoleSpan Roles={props.Guild.roles} str={remainder} key={`remainder${props.Message.id}`}/>);
+
+    let attachments = [];
+    if(props.Message.attachments) {
+        for(let i = 0; i < props.Message.attachments.length; i++)
+        {
+            attachments.push(<img key={`attachment${i}msg${props.Message.id}`} src={props.Message.attachments[i].url} alt={props.Message.attachments[i].filename}/>);
+        }
+    }
+
     return <div className="message-container">
         <img src={`https://cdn.discordapp.com/avatars/${props.Message.author.id}/${props.Message.author.avatar}.png`} alt="?" className="message-avatar"/>
         <div className="message-author">{props.Message.author.username}
@@ -117,8 +253,10 @@ const Message = props => {
         </div>
         <span className="message-discriminator">{props.Message.id}</span>
         <div className="message-contents">
-            
             {contents}
+            <br/>
+            {attachments}
+            
         </div>
         {props.children}
     </div>;
@@ -180,3 +318,7 @@ export default connect(state => {
         GuildData: state.core.selectedGuildData
     }
 })(Messages);
+
+export { Message, RoleSpan };
+
+export { getHexaColor as GetHexaColor };
