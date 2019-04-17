@@ -20,7 +20,7 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     max-width: 254px;
     margin: 1px;
     height: $listHeight;
-    border: 1px solid $buttonColor-hover;
+    border: 1px solid $buttonColor;
     font-size: $selectionSize;
     font-weight: 400;
     padding: 4px;
@@ -28,6 +28,15 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     flex-shrink: 0;
 }
 
+.dashboard-selection:hover {
+    background-color: $buttonColor;
+}
+
+.dashboard-selection-noperms {
+    @extend .dashboard-selection;
+
+    border: 1px solid $errorColor;
+}
 
 .dashboard-list-avatar {
     width: $listHeight;
