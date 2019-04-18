@@ -39,14 +39,16 @@ const AnimatedEmoji = props => {
             {
                 // Append spans with line breaks
                 // 0 based element doesn't have a line break since \n appears after it
-                contents.push(<span key={`${i}animated${id}nlcont0`}>{newlines[0]}</span>);
+                if(newlines[0].length > 0)
+                    contents.push(<span key={`${i}animated${id}nlcont0`}>{newlines[0]}</span>);
                 for(let j = 1; j < newlines.length; j++)
                 {
                     contents.push(<br key={`animated${id}nl${j}`}/>);
-                    contents.push(<span key={`animated${id}nlcont${j}`}>{newlines[j]}</span>);
+                    if(newlines[j].length > 0)
+                        contents.push(<span key={`animated${id}nlcont${j}`}>{newlines[j]}</span>);
                 }
             }
-            else // No newlines, don't need to loop
+            else if(expl[0].length > 0) // No newlines, don't need to loop
                 contents.push(<span key={`animated${id}remainder${i}`}>{expl[0]}</span>)
 
             // Append our animated gif

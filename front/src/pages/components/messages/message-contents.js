@@ -35,16 +35,18 @@ const MessageContents = props => {
             let newlines = expl[0].split("\n");
             if(newlines.length > 1)
             {
-                contents.push(<RoleSpan Roles={props.Guild.roles} str={newlines[0]} key={`${i}msg${props.Message.id}nl0`}/>);
+                if(newlines[0].length > 0)
+                    contents.push(<RoleSpan Roles={props.Guild.roles} str={newlines[0]} key={`${i}msg${props.Message.id}nl0`}/>);
 
                 for(let x = 1; x < newlines.length; x++)
                 {
                     contents.push(<br key={`${i}msg${props.Message.id}br${x}`}/>);
-                    contents.push(<RoleSpan Roles={props.Guild.roles} str={newlines[x]} key={`${i}msg${props.Message.id}nlsp${x}`}/>);
+                    if(newlines[x].length > 0)
+                        contents.push(<RoleSpan Roles={props.Guild.roles} str={newlines[x]} key={`${i}msg${props.Message.id}nlsp${x}`}/>);
                 
                 }
             }
-            else
+            else if(expl[0].length > 0)
             {
                 contents.push(<RoleSpan Roles={props.Guild.roles} str={expl[0]} key={`${i}msg${props.Message.id}nlsp0`}/>);
             }

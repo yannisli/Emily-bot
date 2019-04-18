@@ -23,17 +23,18 @@ const RoleSpan = props => {
         let newlines = strBefore.split("\n");
 
         if(newlines.length > 1) {
-
-            contents.push(<span key={`$rolespaninitialnl0`}>{newlines[0]}</span>);
+            if(newlines[0].length > 0)
+                contents.push(<span key={`$rolespaninitialnl0`}>{newlines[0]}</span>);
 
             for(let i = 1; i < newlines.length; i++)
             {
                 contents.push(<br key={`rolespawninitialbr${i}`}/>);
-                contents.push(<AnimatedEmoji key={`rolespaninitialnl${i}`} str={newlines[i]}></AnimatedEmoji>);
+                if(newlines[i].length > 0)
+                    contents.push(<AnimatedEmoji key={`rolespaninitialnl${i}`} str={newlines[i]}></AnimatedEmoji>);
             }
             
         }
-        else // Evaluate for emoji
+        else if(strBefore.length > 0) // Evaluate for emoji
             contents.push(<AnimatedEmoji key={`rolespaninitialbefore`} str={strBefore}></AnimatedEmoji>);
 
         if(expl.length > 1)
