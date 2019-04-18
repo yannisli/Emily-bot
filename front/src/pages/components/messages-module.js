@@ -30,17 +30,25 @@ const AnimatedEmoji = props => {
         {
             if(remainder === undefined)
                 break;
+            // Our str we used to split
             let str = regex[i];
+            // Split the remaining string by the regex match
             let expl = remainder.split(str);
 
+            // Our id is the 3rd element in the array
+            // As we split based on :
+            // and the animated emoji is in the format of <a:emoji_name:snowflake_id>
             let id = str.split(":");
-            console.log("ids", id);
+
             id = id[2].substr(0, id[2].length-1);
 
+            // If we have newlines we should also accordingly append line breaks
             let newlines = expl[0].split("\n");
 
             if(newlines.length > 1)
             {
+                // Append spans with line breaks
+                // 0 based element doesn't have a line break since \n appears after it
                 contents.push(<span key={`${i}animated${id}nlcont0`}>{newlines[0]}</span>);
                 for(let j = 1; j < newlines.length; j++)
                 {
@@ -48,10 +56,12 @@ const AnimatedEmoji = props => {
                     contents.push(<span key={`animated${id}nlcont${j}`}>{newlines[j]}</span>);
                 }
             }
-            else
+            else // No newlines, don't need to loop
                 contents.push(<span key={`animated${id}remainder${i}`}>{expl[0]}</span>)
 
+            // Append our animated gif
             contents.push(<img src={`https://cdn.discordapp.com/emojis/${id}.gif`} alt="" key={`${i}animated${id}emoji`} className="message-emoji"/>);
+            // If we had more than 2 results from the split because there was duplicate emojis, we need to concatenate them back to remainder since we need to parse things in order of the RegEx occurences
             if(expl.length >= 3)
             {
                 let concat = expl[1];
@@ -88,11 +98,6 @@ const RoleSpan = props => {
         // Explode based off of &
         // expl[1].substr(0, expl[1].length-1) is our role id
         let expl = props.str.split("<@&");
-        //let id = expl[1].trim();
-        
-        console.log(expl);
-
-        //id = id.substr(0, id.length-1);
 
 
         let strBefore = expl[0];
@@ -113,25 +118,13 @@ const RoleSpan = props => {
         else // Evaluate for emoji
             contents.push(<AnimatedEmoji key={`rolespaninitialbefore`} str={strBefore}></AnimatedEmoji>);
 
-       /* // Look up through guild
-
-        for(let i = 0; i < props.Roles.length; i++)
-        {
-            if(props.Roles[i].id === id)
-            {
-                contents.push(...[<span key={`RoleSpan${id}bef`}>{strBefore}</span>,<span key={`RoleSpawn${id}aft`} style={{color: `#${getHexaColor(props.Roles[i].color)}`}}>{props.Roles[i].name}</span>]);
-                break;
-            }
-        }*/
-
         if(expl.length > 1)
         {
             for(let i = 1; i < expl.length; i++)
             {
                 let sub_id = expl[i].substr(0, expl[i].indexOf(">"));
                 let rest = expl[i].substr(expl[i].indexOf(">")+1);
-                console.log("sub_id: ", sub_id);
-                console.log("rest", rest);
+
                 for(let x = 0; x < props.Roles.length; x++)
                 {
                     if(props.Roles[x].id === sub_id)
