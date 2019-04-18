@@ -1,6 +1,7 @@
 import React, { useState }from 'react';
 import MessageContents from './message-contents';
 
+import ReactionList from './reaction-list';
 
 const Message = props => {
 
@@ -45,11 +46,13 @@ const Message = props => {
                 
             </div>,
             <div key="register" className="message-button">
-                Register new Reaction
+                New Reaction
             </div>,
             <div key="delete" className="message-error-button">
                 Delete Message
-            </div>]
+            </div>,
+            <ReactionList Roles={props.Guild.roles} Reactions={props.MsgData.Messages[props.Message.id].reactions} key="reaction-list"/>
+        ]
         }
         {props.children}
     </div>;

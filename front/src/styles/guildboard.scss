@@ -28,10 +28,10 @@
     width: calc(100% - 42px);
     flex-basis: calc(100% - 42px);
     background-color: inherit;
-    border: 1px solid $errorColor;
+    border: 1px dashed $errorColor;
     text-align: center;
     padding: 30px 20px;
-    max-width: 33vw;
+    max-width: 50vw;
     font-size: $subheaderSize;
     font-family: 'Roboto';
     font-weight: 100;
@@ -42,7 +42,7 @@
     @extend %button;
 
     width: calc(100% - 42px);
-    max-width: 33vw;
+    max-width: 50vw;
     text-align: center;
 
     background-color: inherit;

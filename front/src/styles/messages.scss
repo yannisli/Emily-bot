@@ -99,6 +99,8 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     font-weight: 100;
     text-align: center;
     margin-top: 10px;
+
+    width: calc(50% - 47px);
 }
 
 .message-error-button {
@@ -138,4 +140,104 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     margin-top: 10px;
     width: 100%;
     text-align: left;
+}
+
+.reaction-list-container {
+
+    @extend %flex-box;
+    width: 100%;
+
+    padding: 0;
+    margin: 0;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    justify-content: flex-start;
+    
+
+    align-items: flex-start;
+
+    margin-top: 10px;
+
+}
+
+.reaction-error {
+
+    @extend .announcement-box;
+
+    background-color: inherit;
+    border: 1px dashed $errorColor;
+
+    width: calc(100% - 42px);
+    text-align: center;
+    font-size: $subheaderSize;
+    font-weight: 100;
+    margin-top: 10px;
+}
+.reaction-container {
+    @extend %flex-box;
+    
+    width: calc((100% - 66px) / 3);
+    text-align: left;
+    background-color: $foregroundColor;
+    border-radius: 5px;
+    
+    padding: 10px;
+
+    border: 1px solid $outlineColor;
+
+    margin-bottom: 2px;
+}
+
+@media screen and (max-width: 768px) {
+    .reaction-container {
+        width: calc(100% - 22px);
+    }
+}
+
+.reaction-line {
+    @extend %flex-box;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+
+    width: 100%;
+}
+.reaction-name {
+    font-size: $subheaderSize;
+    font-weight: 100;
+}
+
+$reactionButtonSize: calc(10px + 1vmin);
+.reaction-button {
+    @extend .message-button;
+    font-size: $reactionButtonSize;
+}
+
+.reaction-error-button {
+    @extend .message-error-button;
+    font-size: $reactionButtonSize;
+}
+
+.reaction-emoji {
+    @extend .message-emoji;
+
+    width: calc(10px + 1.5vmax);
+    height: calc(10px + 1.5vmax);
+    
+    max-width: 32px;
+    max-height: 32px;
+}
+
+.reaction-sub {
+    font-size: calc(10px + 0.4vmin);
+    color: gray;
+    font-weight: 100;
+    text-align: left;
+
+    word-wrap: break-word;
+
+    width: 100%;
 }
