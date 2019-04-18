@@ -14,10 +14,13 @@ const getHexaColor = color => typeof(color) === String ? color.parseInt(color, 1
 const AnimatedEmoji = props => {
 
     let contents = [];
+    // Match strings that are of the animated emoji format
+    // <a:emoji_name:snowflake_id>
     let regex = props.str.match(/<a:[A-Za-z0-9]*:[0-9]*>/g);
 
+    // Remaining input we have yet to parse
     let remainder = props.str;
-
+    // If no matches, just return a span of this element
     if(regex === null)
         return <span>{props.str}</span>
     else {
@@ -38,7 +41,7 @@ const AnimatedEmoji = props => {
 
             if(newlines.length > 1)
             {
-                contents.push(<span key={`animated${id}nlcont$0`}>{newlines[0]}</span>);
+                contents.push(<span key={`${i}animated${id}nlcont0`}>{newlines[0]}</span>);
                 for(let j = 1; j < newlines.length; j++)
                 {
                     contents.push(<br key={`animated${id}nl${j}`}/>);
@@ -46,9 +49,9 @@ const AnimatedEmoji = props => {
                 }
             }
             else
-                contents.push(<span key={`animated${id}remainder`}>{expl[0]}</span>)
+                contents.push(<span key={`animated${id}remainder${i}`}>{expl[0]}</span>)
 
-            contents.push(<img src={`https://cdn.discordapp.com/emojis/${id}.gif`} alt="" key={`animated${id}emoji`} className="message-emoji"/>);
+            contents.push(<img src={`https://cdn.discordapp.com/emojis/${id}.gif`} alt="" key={`${i}animated${id}emoji`} className="message-emoji"/>);
             if(expl.length >= 3)
             {
                 let concat = expl[1];
@@ -65,6 +68,8 @@ const AnimatedEmoji = props => {
                 remainder = expl[1];
             }
         }
+        // Push the remaining string to display as well
+        contents.push(<span key={`animatedemojiremainders`}>{remainder}</span>);
     }
 
     return contents;
@@ -157,7 +162,7 @@ const RoleSpan = props => {
         return contents;
         
     }
-    return <span>{props.str}</span>;
+    return <AnimatedEmoji str={props.str}></AnimatedEmoji>;
 }
 const Message = props => {
 
