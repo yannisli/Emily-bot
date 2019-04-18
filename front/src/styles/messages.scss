@@ -66,3 +66,13 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     line-height: $subheaderSize;
     color: grey;
 }
+
+.message-attachments-container {
+
+    @extend %flex-box;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    margin-top: 20px;
+}

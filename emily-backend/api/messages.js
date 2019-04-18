@@ -61,8 +61,6 @@ router.get("/guild/:id", CatchAsync(async (req, res) => {
                 continue;
             }
             
-            console.log("msg object:");
-            console.log(msg);
             let reacts = {};
             // Current Message Reactions and their count
             if(msg.reactions && msg.reactions.length > 0) {
