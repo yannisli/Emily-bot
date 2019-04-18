@@ -59,7 +59,7 @@ $emojiSize: calc(10px + 1.3vmax);
     width: calc(100% - #{$avatarSize} - 20px);
 }
 
-$discrimHeight: calc(#{$subheaderSize} - 1vmin);
+$discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
 .message-discriminator {
     font-weight: 100;
     font-size: $discrimHeight;

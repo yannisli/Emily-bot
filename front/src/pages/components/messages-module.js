@@ -244,7 +244,7 @@ const Message = props => {
     return <div className="message-container">
         <img src={`https://cdn.discordapp.com/avatars/${props.Message.author.id}/${props.Message.author.avatar}.png`} alt="?" className="message-avatar"/>
         <div className="message-author">{props.Message.author.username}
-            <span className="message-discriminator">#{props.Message.author.id}</span>
+            <span className="message-discriminator">#{props.Message.author.discriminator}</span>
         </div>
         <div className="message-author">{props.MsgData.Channels[props.MsgData.Messages[props.Message.id].channel].name}
             <span className="message-discriminator">#{props.Message.channel}</span>
