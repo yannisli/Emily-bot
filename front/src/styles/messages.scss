@@ -25,6 +25,8 @@ $emojiSize: calc(10px + 1.3vmax);
     flex-direction: row;
     flex-wrap: wrap;
 
+    
+
     background-color: $backgroundColor;
     border-radius: 5px;
     padding: 10px;
@@ -39,7 +41,6 @@ $emojiSize: calc(10px + 1.3vmax);
     padding: 10px;
     border-radius: 5px;
     width: calc(100% - 22px);
-    margin-top: 10px;
     border: 1px solid $outlineColor;
     font-size: $fontSize;
     
@@ -56,7 +57,17 @@ $emojiSize: calc(10px + 1.3vmax);
     font-weight: 100;
     font-size: $subheaderSize;
     word-wrap: break-word;
-    width: calc(100% - #{$avatarSize} - 20px);
+}
+
+.messages-header {
+   
+    @extend %header;
+
+    text-align: left;
+    width: 100%;
+
+    font-size: $subheaderSize;
+    border-bottom: 1px solid $buttonColor;
 }
 
 $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
@@ -75,4 +86,56 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     flex-wrap: wrap;
 
     margin-top: 20px;
+}
+
+.message-button {
+    @extend %button;
+
+    background-color: inherit;
+    border: 1px solid $buttonColor;
+
+    font-size: $subheaderSize;
+    line-height: $subheaderSize;
+    font-weight: 100;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.message-error-button {
+    @extend .message-button;
+    border: 1px solid $errorColor;
+
+    margin-left: auto;
+}
+
+.message-error-button:hover {
+    background-color: $errorColor;
+}
+
+.message-line {
+
+    @extend %flex-box;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: calc(80% - #{$avatarSize} - 20px);
+    justify-content: flex-start;
+    align-items: flex-end;
+}
+
+.message-dropdown-button {
+    @extend %text-button;
+    margin-left: auto;
+    font-size: $headerSize;
+    text-align: right;
+
+    align-self: flex-start;
+    
+}
+
+.message-id {
+    @extend .message-discriminator;
+    margin-top: 10px;
+    width: 100%;
+    text-align: left;
 }

@@ -40,6 +40,9 @@ class Messages extends Component {
             }
 
             return <div className="messages-container">
+                <div className="messages-header">
+                    Messages Registered
+                </div>
                 {contents}
                 {contents.length === 0 &&
                     <div className="board-error">
