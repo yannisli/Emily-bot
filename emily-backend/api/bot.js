@@ -8,6 +8,7 @@ const socketOnConnect = socket => {
         socket.disconnect(true);
         return;
     }
+    console.log("New Socket.io connection added");
     sockets.push(socket);
 
     socket.on("disconnect", () => {
@@ -16,7 +17,7 @@ const socketOnConnect = socket => {
         {
             if(sockets[i] === socket)
             {
-                sockets[i].splice(i, 1);
+                sockets.splice(i, 1);
                 break;
             }
         }
@@ -33,12 +34,13 @@ const socketEmit = (eventName, data, callback) => {
         if(!sockets[i])
             continue;
         if(!sockets[i].connected) {
-            sockets[i].splice(i, 1);
+            sockets.splice(i, 1);
             i--;
             continue;
         }
+        sockets[i].emit(eventName, data);
         if(callback !== undefined) {
-            sockets[i].emit(eventName, data);
+            
             sockets[i].once(eventName, reply => {
                 callback(reply);
                 for(let j = 0; j < sockets.length; j++)

@@ -11,6 +11,8 @@ import '../../styles/messages.scss';
 
 import Message from './messages/message';
 
+import NewMessage from './messages/new-message';
+
 class Messages extends Component {
     render() {
         if(!this.props.Guild)
@@ -43,15 +45,19 @@ class Messages extends Component {
                 <div className="messages-header">
                     Messages Registered
                 </div>
-                {contents}
+                
+                {!this.props.Creating && <div className="board-button" onClick={() => this.props.dispatch({type: "SET_CREATING", data: true})}>
+                    Register a new Message
+                </div>
+                }
+                {this.props.Creating && <NewMessage Cancel={() => this.props.dispatch({type: "SET_CREATING", data: false})} Guild={this.props.GuildData} MsgData={this.props.MsgData} /> }
                 {contents.length === 0 &&
                     <div className="board-error">
                         Looks like you have no messages registered...
                     </div>
                 }
-                <div className="board-button">
-                    Register a new Message
-                </div>
+                {contents}
+                
             </div>
         }
         return <div></div>;
@@ -86,6 +92,7 @@ export default connect(state => {
         MsgData: state.messages.data,
         Loading: state.messages.loading,
         Loaded: state.messages.loaded,
-        GuildData: state.core.selectedGuildData
+        GuildData: state.core.selectedGuildData,
+        Creating: state.messages.creating
     }
 })(Messages);
