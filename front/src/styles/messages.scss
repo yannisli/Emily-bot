@@ -20,7 +20,7 @@ $emojiSize: calc(10px + 1.3vmax);
 }
 
 .message-container {
-    @extend %flex-box;
+    @extend %container;
 
     flex-direction: row;
     flex-wrap: wrap;
@@ -29,8 +29,6 @@ $emojiSize: calc(10px + 1.3vmax);
 
     
 
-    background-color: $backgroundColor;
-    border-radius: 5px;
     padding: 10px;
     width: calc(100% - 22px);
     border: 1px solid $outlineColor;
@@ -40,18 +38,6 @@ $emojiSize: calc(10px + 1.3vmax);
     transition-duration: .5s;
     transition-timing-function: linear;
 
-}
-
-.message-container-editing {
-    @extend .message-container;
-
-    border: 1px dashed $buttonColor;
-}
-
-.message-container-deleting {
-    @extend .message-container;
-
-    border: 1px dashed $errorColor;
 }
 
 .message-contents {
@@ -67,7 +53,6 @@ $emojiSize: calc(10px + 1.3vmax);
 .message-avatar {
     width: $avatarSize;
     height: $avatarSize;
-    border-radius: 50%;
     margin-right: 10px;
 }
 
@@ -109,18 +94,11 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
 .message-button {
     @extend %button;
 
-    background-color: inherit;
-    border: 1px solid $buttonColor;
 
     font-size: $subheaderSize;
     line-height: $subheaderSize;
-    font-weight: 100;
-    text-align: center;
     margin-top: 10px;
     width: calc(50% - 47px);
-    transition-property: background-color, border-color, border-style;
-
-    transition-duration: 0.1s;
 
     
 }
@@ -138,28 +116,7 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     width: 100%;
 }
 
-.message-button-active {
-    @extend .message-button;
 
-    cursor: auto;
-
-    background-color: $buttonColor-hover;
-}
-
-.message-button-disabled {
-    @extend .message-button;
-
-    border-style: dashed;
-    border-color: $buttonColor-hover;
-
-    color: gray;
-
-    cursor: auto;
-}
-
-.message-button-disabled:hover {
-    background-color: inherit;
-}
 .message-error-button {
     @extend .message-button;
     border: 1px solid $errorColor;
@@ -172,19 +129,6 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     background-color: $errorColor;
 }
 
-.message-error-button-disabled {
-    @extend .message-error-button;
-
-    color: gray;
-    border-style: dashed;
-    border-color: $errorColor-hover;
-    cursor: auto;
-
-    
-}
-.message-error-button-disabled:hover {
-    background-color: inherit;
-}
 
 .message-line {
 
@@ -199,7 +143,6 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
 
 .message-dropdown-button {
     @extend %text-button;
-    margin-left: auto;
     font-size: $headerSize;
     text-align: right;
 
@@ -252,15 +195,10 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
 
 .reaction-error {
 
-    @extend .announcement-box;
-
-    background-color: inherit;
-    border: 1px dashed $errorColor;
+    @extend %error;
 
     width: calc(100% - 42px);
-    text-align: center;
     font-size: $subheaderSize;
-    font-weight: 100;
     margin-top: 10px;
 }
 .reaction-container {
@@ -294,17 +232,6 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     }
 }
 
-.reaction-container-editing {
-    @extend .reaction-container;
-
-    border: 1px dashed $buttonColor;
-}
-
-.reaction-container-deleting {
-    @extend .reaction-container;
-
-    border: 1px dashed $errorColor;
-}
 .reaction-line {
     @extend %flex-box;
 
@@ -328,12 +255,6 @@ $reactionButtonSize: calc(10px + 1vmin);
 }
 
 
-.reaction-button-disabled {
-    @extend .message-button-disabled;
-    font-size: $reactionButtonSize;
-
-}
-
 .reaction-error-button {
     @extend .message-error-button;
     font-size: $reactionButtonSize;
@@ -354,7 +275,7 @@ $reactionButtonSize: calc(10px + 1vmin);
 }
 
 .reaction-emoji-button {
-    @extend .reaction-emoji;
+    @extend .reaction-emoji, %button;
 
     cursor: pointer;
     text-align: center;
@@ -363,31 +284,22 @@ $reactionButtonSize: calc(10px + 1vmin);
     line-height: 32px;
     width: 32px;
     height: 32px;
+    padding: 0;
     max-width: none;
     max-height: none;
     margin: 1px;
     border: 1px solid $buttonColor;
 
-
     transition: background-color .1s linear;
 }
 
 
-.reaction-emoji-button:hover {
-    background-color: $textButtonColor-hover;
-
-}
 .reaction-name-button {
-    @extend .reaction-name;
+    @extend %text-button, .reaction-name;
 
-    cursor: pointer;
-
-    transition: color .1s linear;
+    height: fit-content;
 }
 
-.reaction-name-button:hover {
-    color: $textButtonColor-hover;
-}
 .reaction-sub {
     font-size: calc(10px + 0.4vmin);
     color: gray;
@@ -428,13 +340,12 @@ $reactionButtonSize: calc(10px + 1vmin);
     align-items: flex-start;
 }
 
+
 .reaction-name-button-dropdown {
 
     @extend .reaction-name-button;
 
-    font-size: $fontSize;
-    line-height: $fontSize;
-
+    font-size: calc(10px + 1vmin);
     width: calc(100% - 16px);
     padding: 0 5px;
     border-radius: 3px;

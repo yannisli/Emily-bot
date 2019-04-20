@@ -51,7 +51,7 @@ class Home extends Component {
                         Author
                     </header>
                     <div className="home-contents">
-                        <img src={authorLogo} alt="" className="home-avatar"/>
+                        <img src={authorLogo} alt="" className="home-avatar circular"/>
                         <div className="home-author-container">
                             <div className="home-author">
                                 Emi#5366

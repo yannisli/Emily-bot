@@ -27,7 +27,7 @@ class Dashboard extends Component {
 
             if(this.props.Loading)
             {
-                innerContents = [<div style={{textAlign: 'center', width: '100%'}} key="Loading-div">Loading guild information...</div>,<img className="loading" style={{alignSelf: 'flex-start'}}alt="Loading" key="loadingsvg" src={loading}/>];
+                innerContents = [<div style={{textAlign: 'center', width: '100%'}} key="Loading-div">Loading guild information...</div>,<img className="loading pushLeft pushRight" style={{alignSelf: 'flex-start'}}alt="Loading" key="loadingsvg" src={loading}/>];
             }
             else if(this.props.Loaded)
             {

@@ -23,7 +23,7 @@
 
 
 .home-contents {
-    @extend %flex-box;
+    @extend %container;
     width: 70%;
     box-sizing: border-box;
     flex-direction: row;
@@ -31,13 +31,8 @@
     align-items: center;
     flex-wrap: wrap;
     margin-bottom: 10%;
-    border-radius: 5px;
-    background-color: $backgroundColor;
     padding: 20px;
-    font-size: $fontSize;
-    font-family: 'Roboto';
-    font-weight: 300;
-    height: fit-content;
+
 }
 
 @media only screen and (max-width: 768px) {
@@ -72,7 +67,6 @@
 .home-avatar {
     width: 16vmin;
     height: 16vmin;
-    border-radius: 50%;
 }
 
 .home-author-container {

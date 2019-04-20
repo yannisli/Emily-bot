@@ -27,11 +27,11 @@ class UserCard extends Component {
     render() {
         if(this.props.User === null) {
 
-            return <a href={`${process.env.REACT_APP_API_URI}/api/oauth2/login`} className="navbar-button" style={{marginLeft: 'auto'}}>Login</a>
+            return <a href={`${process.env.REACT_APP_API_URI}/api/oauth2/login`} className="navbar-button pushRight">Login</a>
         }
         else
         {
-            let elements = [<img alt="?" key="user-avatar" src={`https://cdn.discordapp.com/avatars/${this.props.User.id}/${this.props.User.avatar}.png`} className="avatar" onClick={this.showUserCard} style={{cursor: 'pointer'}}/>];
+            let elements = [<img alt="?" key="user-avatar" src={`https://cdn.discordapp.com/avatars/${this.props.User.id}/${this.props.User.avatar}.png`} className="avatar circular pushRight button" onClick={this.showUserCard} />];
             
             
             if(this.props.Display) {
@@ -45,7 +45,7 @@ class UserCard extends Component {
                     </a>
                 </div>)
             }
-            return <div className="usercard-container">
+            return <div className="usercard-container pushRight">
                 {elements}
             </div>;
         }

@@ -23,19 +23,11 @@
 }
 
 .board-error {
-    @extend .announcement-box;
+    @extend %error;
 
-    width: calc(100% - 42px);
-    flex-basis: calc(100% - 42px);
-    background-color: inherit;
-    border: 1px dashed $errorColor;
-    text-align: center;
-    padding: 30px 20px;
+    margin-top: 2vh;
+
     max-width: 50vw;
-    font-size: $subheaderSize;
-    font-family: 'Roboto';
-    font-weight: 100;
-
 }
 
 .board-button {
@@ -43,15 +35,9 @@
 
     width: calc(100% - 42px);
     max-width: 50vw;
-    text-align: center;
-
-    background-color: inherit;
-    border: 1px solid $buttonColor;
-
+    
     font-size: $subheaderSize;
     line-height: $subheaderSize;
-    font-weight: 100;
     padding: 10px 20px;
     margin-top: 10px;
-    font-family: 'Roboto';
 }

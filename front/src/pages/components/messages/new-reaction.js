@@ -29,7 +29,7 @@ const NewReaction = props => {
         roleName = selectedRole.name;
     }
     if(!sending)
-    return <div key="creating" className="reaction-container-editing">
+    return <div key="creating" className="reaction-container editing">
             <div className="reaction-line">
                 {selectedEmoji !== null && <img onClick={() => setDisplayEmojiDrop(!displayEmojiDrop)} src={`https://cdn.discordapp.com/emojis/${selectedEmoji.id}.${selectedEmoji.animated ? "gif" : "png"}`} alt="" className="reaction-emoji-button"/>}
                 {selectedEmoji === null && <div onClick={() => setDisplayEmojiDrop(!displayEmojiDrop)} className="reaction-emoji-button">?</div>}
@@ -40,7 +40,7 @@ const NewReaction = props => {
             <div className="reaction-sub">Emoji: {selectedEmoji !== null ? selectedEmoji.id : "N/A"}</div>
             <div className="reaction-sub">Role: {selectedRole !== null ? selectedRole.id : "N/A"}</div>
             <div className="reaction-line">
-                <div className={(selectedEmoji !== null && selectedRole !== null) ? "reaction-button" : "reaction-button-disabled"} onClick={() => {
+                <div className={(selectedEmoji !== null && selectedRole !== null) ? "reaction-button" : "reaction-button disabled"} onClick={() => {
                     if(selectedEmoji === null || selectedRole === null)
                         return;
                     setSending(true);
@@ -64,7 +64,7 @@ const NewReaction = props => {
             </div>
         </div>
     else
-        return <div key="creating" className="reaction-container-editing">
+        return <div key="creating" className="reaction-container editing">
             <div className="reaction-line">
                 <img src={`https://cdn.discordapp.com/emojis/${selectedEmoji.id}.${selectedEmoji.animated ? "gif" : "png"}`} alt="" className="reaction-emoji"/>
                 <div className="reaction-name" style={{color: `#${roleColor}`}}>{roleName}</div>

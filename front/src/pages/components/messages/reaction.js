@@ -25,9 +25,9 @@ const Reaction = props => {
     let containerClass = "reaction-container";
 
     if(editing)
-        containerClass = "reaction-container-editing";
+        containerClass = "reaction-container editing";
     else if(deleting || sendingDelete)
-        containerClass = "reaction-container-deleting";
+        containerClass = "reaction-container deleting";
     if(!editing)
         return <div className={containerClass}>
             <div className="reaction-line">

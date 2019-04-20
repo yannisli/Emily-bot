@@ -3,19 +3,19 @@
 
 
 .navbar {
+    @extend %flex-box;
     height: calc(#{$navHeight} - 1px);
     background-color: $secondaryColor;
-    display: flex;
-    flex-direction: column;
     align-items: flex-end;
     justify-content: center;
     border-bottom: 1px solid $backgroundColor;
 }
 
 .navbar-container {
+    @extend %flex-box;
     min-width: 30%;
     margin-right: 15%;
-    display: flex;
+    
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
@@ -34,33 +34,23 @@
     border-bottom: 2px solid $textButtonColor-hover;
 }
 
-.navbar-button-active:hover {
-    color: $textButtonColor-hover;
-}
-
 .avatar {
-
-    display: inline-block;
     width: $avatarSize;
     height: $avatarSize;
-    border-radius: 50%;
-    margin-left: auto;
     margin-right: 2px;
 }
 
 
 .usercard-container {
-    display: flex;
+    @extend %flex-box;
     justify-content: center;
-    align-items: center;
-    margin-left: auto;
-    color: white;
     height: $navHeight;
 }
 
 .usercard-dropdown-container {
+    @extend %flex-box;
     position: absolute;
-    display: flex;
+    
     justify-content: space-between;
     align-items: center;
     flex-direction: row;

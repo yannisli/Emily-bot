@@ -27,18 +27,18 @@ const Message = props => {
 
     let canEdit = props.Message.author.id === "272421186166587393";
 
-    let containerClass = deleting ? "message-container-deleting" : editing ? "message-container-editing" : "message-container";
+    let containerClass = deleting ? "message-container deleting" : editing ? "message-container editing" : "message-container";
 
     let buttons = [];
 
-    let editButton = <div key="edit" className={(!canEdit || deleting || creating) ? "message-button-disabled" : "message-button"} onClick={() => {if(!canEdit) return; setEditing(true)}}>Edit Message</div>
+    let editButton = <div key="edit" className={(!canEdit || deleting || creating) ? "message-button disabled" : "message-button"} onClick={() => {if(!canEdit) return; setEditing(true)}}>Edit Message</div>
 
     if(!deleting)
     {
-        buttons.push(<div key="register" className={(deleting || editing || creating) ? "message-button-disabled" : "message-button"} onClick={() => {if(editing || deleting) return; setCreating(true)}}>New Reaction</div>);
+        buttons.push(<div key="register" className={(deleting || editing || creating) ? "message-button disabled" : "message-button"} onClick={() => {if(editing || deleting) return; setCreating(true)}}>New Reaction</div>);
         if(!editing)
             buttons.push(editButton);
-        buttons.push(<div key="delete" className={(editing || creating) ? "message-error-button-disabled" : "message-error-button"} onClick={() => {if(creating) return; setDeleting(true)}}>Delete Message</div>);
+        buttons.push(<div key="delete" className={(editing || creating) ? "message-error-button disabled" : "message-error-button"} onClick={() => {if(creating) return; setDeleting(true)}}>Delete Message</div>);
         if(editing)
         {
             buttons.push(<div key="confirm_edit" className="message-button">Confirm Edit</div>);
@@ -47,7 +47,7 @@ const Message = props => {
     }
     else
     {
-        buttons.push(<div key="register" className={(deleting || editing || creating) ? "message-button-disabled" : "message-button"} onClick={() => {if(editing || deleting) return; setCreating(true)}}>New Reaction</div>);
+        buttons.push(<div key="register" className={(deleting || editing || creating) ? "message-button disabled" : "message-button"} onClick={() => {if(editing || deleting) return; setCreating(true)}}>New Reaction</div>);
         buttons.push(editButton);
         buttons.push(<div key="confirm" className="message-button">Delete</div>);
         buttons.push(<div key="cancel" className="message-error-button" onClick={() => setDeleting(false)}>Cancel</div>);
@@ -58,7 +58,7 @@ const Message = props => {
 
     
     return <div className={containerClass}>
-        <img src={`https://cdn.discordapp.com/avatars/${props.Message.author.id}/${props.Message.author.avatar}.png`} alt="?" className="message-avatar"/>
+        <img src={`https://cdn.discordapp.com/avatars/${props.Message.author.id}/${props.Message.author.avatar}.png`} alt="?" className="message-avatar circular"/>
         <div className="message-line">
             
             <span className="message-author">{props.Message.author.username}
@@ -71,7 +71,7 @@ const Message = props => {
             <span className="message-discriminator">#{props.Message.channel}</span>
             
         </div>
-        <div className="message-dropdown-button" onClick={() => setDisplay(!displayed)}>
+        <div className="message-dropdown-button pushRight" onClick={() => setDisplay(!displayed)}>
             {displayed ? "—" : "+"}
         </div>
         <span className="message-id">{props.Message.id}</span>

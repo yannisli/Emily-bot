@@ -62,20 +62,31 @@ $headerSize2: calc(10px + 2vmin);
     cursor: pointer;
     font-size: $fontSize;
     color: white;
-    background-color: $buttonColor;
+    background-color: inherit;
+    border: 1px solid $buttonColor;
     border-radius: 4px;
-    transition: background-color .1s linear;
+    transition-property: background-color, border-color, border-style, border-width;
+    transition-duration: .1s;
     text-decoration: none;
     height: fit-content;
     line-height: $fontSize;
     padding: 10px 20px;
     font-family: 'Roboto';
-    font-weight: 300;
+    font-weight: 100;
+    text-align: center;
     
 }
-
 %button:hover {
     background-color: $buttonColor-hover;
+}
+
+%error-button {
+    @extend %button;
+    border-color: $errorColor;
+
+}
+%error-button:hover {
+    background-color: $errorColor-hover;
 }
 
 %text-button {
@@ -125,6 +136,30 @@ $headerSize2: calc(10px + 2vmin);
     align-self: flex-start;
     height: 100%;
     box-sizing: content-box;
+    -webkit-overflow-scrolling: touch;
+}
+
+%container {
+    @extend %flex-box;
+
+    background-color: $backgroundColor;
+    border-radius: 5px;
+
+    font-size: $fontSize;
+    font-family: 'Roboto';
+    font-weight: 300;
+}
+
+%error {
+    border-radius: 5px;
+    background-color: inherit;
+    border: 1px dashed $errorColor;
+    text-align: center;
+    padding: 20px 20px;
+    width: calc(100% - 42px);
+    font-size: $subheaderSize;
+    font-family: 'Roboto';
+    font-weight: 100;
 }
 
 
@@ -143,4 +178,59 @@ $headerSize2: calc(10px + 2vmin);
 
 .loading {
     height: 10vmin;
+}
+
+
+.pushLeft {
+    margin-right: auto;
+}
+
+.pushRight {
+    margin-left: auto;
+}
+
+.pushDown {
+    margin-top: auto;
+}
+.pushUp {
+    margin-bottom: auto;
+}
+
+.circular {
+    border-radius: 50%;
+}
+
+.disabled {
+    border-style: dashed;
+    cursor: auto;
+
+    color: gray;
+}
+
+.disabled:hover {
+    background-color: inherit;
+}
+
+.editing {
+    border-style: dashed;
+    border-color: $buttonColor;
+}
+
+.deleting {
+    border-style: dashed;
+    border-color: $errorColor;
+}
+
+.active-button {
+    background-color: $buttonColor;
+    cursor: auto;
+}
+
+.active-error {
+    background-color: $errorColor;
+    cursor: auto;
+}
+
+.button {
+    cursor: pointer;
 }

@@ -9,10 +9,9 @@ $selectionSize: calc(10px + 0.8vmin);
 $avatarPlaceholderSize: calc(10px + 1.6vmin);
 
 .dashboard-selection {
-    @extend %button;
+    @extend %button, %flex-box;
 
     background-color: $backgroundColor;
-    display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
@@ -44,7 +43,6 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     line-height: $listHeight;
     min-width: 32px;
     min-height: 32px;
-    border-radius: 50%;
     text-align: center;
     font-size: $avatarPlaceholderSize;
     font-weight: 100;
@@ -67,10 +65,11 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
 .dashboard-container {
     @extend %flex-box;
 
+    width: 100%;
     -webkit-flex-direction: row;
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-content: flex-start;
 }
