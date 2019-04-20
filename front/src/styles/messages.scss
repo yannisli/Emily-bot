@@ -25,6 +25,8 @@ $emojiSize: calc(10px + 1.3vmax);
     flex-direction: row;
     flex-wrap: wrap;
 
+    justify-content: space-between;
+
     
 
     background-color: $backgroundColor;
@@ -34,6 +36,22 @@ $emojiSize: calc(10px + 1.3vmax);
     border: 1px solid $outlineColor;
     margin-top: 10px;
 
+    transition-property: border height;
+    transition-duration: .5s;
+    transition-timing-function: linear;
+
+}
+
+.message-container-editing {
+    @extend .message-container;
+
+    border: 1px dashed $buttonColor;
+}
+
+.message-container-deleting {
+    @extend .message-container;
+
+    border: 1px dashed $errorColor;
 }
 
 .message-contents {
@@ -99,19 +117,73 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     font-weight: 100;
     text-align: center;
     margin-top: 10px;
-
     width: calc(50% - 47px);
+    transition-property: background-color, border-color, border-style;
+
+    transition-duration: 0.1s;
+
+    
 }
 
+@media screen and (max-width: 768px)
+{
+    .message-button {
+        width: calc(100% - 42px);
+    }
+}
+.message-header {
+    @extend %header;
+    font-size: $headerSize2;
+    text-align: center;
+    width: 100%;
+}
+
+.message-button-active {
+    @extend .message-button;
+
+    cursor: auto;
+
+    background-color: $buttonColor-hover;
+}
+
+.message-button-disabled {
+    @extend .message-button;
+
+    border-style: dashed;
+    border-color: $buttonColor-hover;
+
+    color: gray;
+
+    cursor: auto;
+}
+
+.message-button-disabled:hover {
+    background-color: inherit;
+}
 .message-error-button {
     @extend .message-button;
     border: 1px solid $errorColor;
 
-    margin-left: auto;
+
 }
+
 
 .message-error-button:hover {
     background-color: $errorColor;
+}
+
+.message-error-button-disabled {
+    @extend .message-error-button;
+
+    color: gray;
+    border-style: dashed;
+    border-color: $errorColor-hover;
+    cursor: auto;
+
+    
+}
+.message-error-button-disabled:hover {
+    background-color: inherit;
 }
 
 .message-line {
@@ -142,6 +214,20 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     text-align: left;
 }
 
+.message-textarea {
+    
+    overflow: hidden;
+    color: white;
+    padding: 10px;
+    font-size: $fontSize;
+    line-height: $fontSize;
+    resize: none;
+    width: 100%;
+    border-radius: 5px;
+    background-color: $primaryColor;
+    border: 1px solid $outlineColor;
+}
+
 .reaction-list-container {
 
     @extend %flex-box;
@@ -156,7 +242,9 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     justify-content: flex-start;
     
 
-    align-items: flex-start;
+    align-items: stretch;
+
+    align-content: flex-start;
 
     margin-top: 10px;
 
@@ -179,6 +267,10 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     @extend %flex-box;
     
     width: calc((100% - 66px) / 3);
+
+    justify-content: space-between;
+    align-items: flex-start;
+
     text-align: left;
     background-color: $foregroundColor;
     border-radius: 5px;
@@ -188,14 +280,31 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     border: 1px solid $outlineColor;
 
     margin-bottom: 2px;
+    
+    transition: border .1s linear;
 }
-
+@media screen and (max-width: 1024px) {
+    .reaction-container {
+        width: calc((100% - 44px) / 2);
+    }
+}
 @media screen and (max-width: 768px) {
     .reaction-container {
         width: calc(100% - 22px);
     }
 }
 
+.reaction-container-editing {
+    @extend .reaction-container;
+
+    border: 1px dashed $buttonColor;
+}
+
+.reaction-container-deleting {
+    @extend .reaction-container;
+
+    border: 1px dashed $errorColor;
+}
 .reaction-line {
     @extend %flex-box;
 
@@ -203,10 +312,12 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     flex-wrap: wrap;
     justify-content: flex-start;
 
+
     width: 100%;
 }
 .reaction-name {
     font-size: $subheaderSize;
+    line-height: $subheaderSize;
     font-weight: 100;
 }
 
@@ -216,21 +327,67 @@ $reactionButtonSize: calc(10px + 1vmin);
     font-size: $reactionButtonSize;
 }
 
+
+.reaction-button-disabled {
+    @extend .message-button-disabled;
+    font-size: $reactionButtonSize;
+
+}
+
 .reaction-error-button {
     @extend .message-error-button;
     font-size: $reactionButtonSize;
+
+    margin-left: auto;
 }
 
 .reaction-emoji {
     @extend .message-emoji;
 
-    width: calc(10px + 1.5vmax);
-    height: calc(10px + 1.5vmax);
     
-    max-width: 32px;
-    max-height: 32px;
+    width: 32px;
+    height: 32px;
+
+    
+
+    border-radius: 5px;
 }
 
+.reaction-emoji-button {
+    @extend .reaction-emoji;
+
+    cursor: pointer;
+    text-align: center;
+    vertical-align: middle;
+    font-size: $headerSize2;
+    line-height: 32px;
+    width: 32px;
+    height: 32px;
+    max-width: none;
+    max-height: none;
+    margin: 1px;
+    border: 1px solid $buttonColor;
+
+
+    transition: background-color .1s linear;
+}
+
+
+.reaction-emoji-button:hover {
+    background-color: $textButtonColor-hover;
+
+}
+.reaction-name-button {
+    @extend .reaction-name;
+
+    cursor: pointer;
+
+    transition: color .1s linear;
+}
+
+.reaction-name-button:hover {
+    color: $textButtonColor-hover;
+}
 .reaction-sub {
     font-size: calc(10px + 0.4vmin);
     color: gray;
@@ -240,4 +397,68 @@ $reactionButtonSize: calc(10px + 1vmin);
     word-wrap: break-word;
 
     width: 100%;
+}
+
+.reaction-dropdown {
+
+    @extend %flex-box;
+
+    flex-direction: column;
+
+
+    justify-content: center;
+    align-content: flex-start;
+    align-items: center;
+
+    width: calc(100% - 20px);
+    border: 1px solid $outlineColor;
+    padding: 10px;
+
+    background-color: $backgroundColor;
+    border-radius: 5px;
+}
+
+.reaction-dropdown-container {
+    @extend %flex-box;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: stretch;
+    align-content: flex-start;
+    align-items: flex-start;
+}
+
+.reaction-name-button-dropdown {
+
+    @extend .reaction-name-button;
+
+    font-size: $fontSize;
+    line-height: $fontSize;
+
+    width: calc(100% - 16px);
+    padding: 0 5px;
+    border-radius: 3px;
+}
+
+.reaction-name-button-dropdown:hover {
+    border-left: 3px solid $textButtonColor-hover;
+}
+
+.reaction-inline-notif {
+    @extend .reaction-error;
+
+    font-size: $reactionButtonSize;
+
+    padding: 10px 20px;
+    margin: 0;
+    margin-top: 10px;
+    width: calc(100% - 42px);
+
+    border-color: $buttonColor;
+}
+
+.reaction-inline-notif-error {
+    @extend .reaction-inline-notif;
+
+    border-color: $errorColor;
 }

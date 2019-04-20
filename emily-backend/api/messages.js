@@ -11,7 +11,7 @@ const router = express.Router();
 const msgs = require("../schemas/reaction_message");
 
 // Get all registered reactions
-router.get("/messages/all", CatchAsync(async (req, res) => {
+router.get("/all", CatchAsync(async (req, res) => {
 
     let allMessages = await msgs.find();
 
@@ -171,6 +171,7 @@ router.post("/guild/:id/channels/:channel_id/create", CatchAsync(async (req, res
 
     SocketEmit("createMessage", data, reply => {
         // Reply is the data!
+        console.log("Received createMessage emit from Bot", reply);
         delete data["contents"];
         data["message"] = reply;
         data["reactions"] = {};
@@ -233,7 +234,7 @@ router.put("/message/:message_id/reaction/:id", CatchAsync(async (req, res) => {
         return;
     }
 
-    let msg = await msgs.findOneAndUpdate({message: message_id, 'messages.emoji': currentEmoji}, {$set: { 'reactions.$.emoji': newEmoji, 'reactions.$.role': newRole}}, {new: true});
+    let msg = await msgs.findOneAndUpdate({message: message_id, 'reactions.emoji': currentEmoji}, {$set: { 'reactions.$.emoji': newEmoji, 'reactions.$.role': newRole}}, {new: true});
 
     if(!msg) {
         res.status(404).send("Could not find a document with that Emoji or Message ID.");

@@ -28,6 +28,7 @@ const discordGet = async (uri, authorization=`Bot ${process.env.BOT_TOKEN}`) => 
     }
     else
     {
+        console.log(response.headers);
         return response.status;
     }
 };

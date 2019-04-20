@@ -18,7 +18,46 @@ const Message = props => {
         }
     }
     const [displayed, setDisplay] = useState(true);
-    return <div className="message-container">
+
+    const [deleting, setDeleting] = useState(false);
+
+    const [creating, setCreating] = useState(false);
+
+    const [editing, setEditing] = useState(false);
+
+    let canEdit = props.Message.author.id === "272421186166587393";
+
+    let containerClass = deleting ? "message-container-deleting" : editing ? "message-container-editing" : "message-container";
+
+    let buttons = [];
+
+    let editButton = <div key="edit" className={(!canEdit || deleting || creating) ? "message-button-disabled" : "message-button"} onClick={() => {if(!canEdit) return; setEditing(true)}}>Edit Message</div>
+
+    if(!deleting)
+    {
+        buttons.push(<div key="register" className={(deleting || editing || creating) ? "message-button-disabled" : "message-button"} onClick={() => {if(editing || deleting) return; setCreating(true)}}>New Reaction</div>);
+        if(!editing)
+            buttons.push(editButton);
+        buttons.push(<div key="delete" className={(editing || creating) ? "message-error-button-disabled" : "message-error-button"} onClick={() => {if(creating) return; setDeleting(true)}}>Delete Message</div>);
+        if(editing)
+        {
+            buttons.push(<div key="confirm_edit" className="message-button">Confirm Edit</div>);
+            buttons.push(<div key="canceledit" className="message-error-button" onClick={() => setEditing(false)}>Cancel</div>);
+        }
+    }
+    else
+    {
+        buttons.push(<div key="register" className={(deleting || editing || creating) ? "message-button-disabled" : "message-button"} onClick={() => {if(editing || deleting) return; setCreating(true)}}>New Reaction</div>);
+        buttons.push(editButton);
+        buttons.push(<div key="confirm" className="message-button">Delete</div>);
+        buttons.push(<div key="cancel" className="message-error-button" onClick={() => setDeleting(false)}>Cancel</div>);
+    }
+
+
+    
+
+    
+    return <div className={containerClass}>
         <img src={`https://cdn.discordapp.com/avatars/${props.Message.author.id}/${props.Message.author.avatar}.png`} alt="?" className="message-avatar"/>
         <div className="message-line">
             
@@ -45,13 +84,8 @@ const Message = props => {
                     </div>
                 
             </div>,
-            <div key="register" className="message-button">
-                New Reaction
-            </div>,
-            <div key="delete" className="message-error-button">
-                Delete Message
-            </div>,
-            <ReactionList Roles={props.Guild.roles} Reactions={props.MsgData.Messages[props.Message.id].reactions} key="reaction-list"/>
+            ...buttons,
+            <ReactionList Guild={props.Guild} Creating={creating} SetCreating={setCreating} MessageID={props.Message.id} Roles={props.Guild.roles} Reactions={props.MsgData.Messages[props.Message.id].reactions} key="reaction-list"/>
         ]
         }
         {props.children}
