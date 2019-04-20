@@ -28,7 +28,7 @@ const NewMessage = props => {
             <MessageTextarea key="text"/>,
             <div key="confirm" className={contents != null && contents.length > 0 ? "message-button" : "message-button disabled"} style={{width: 'calc(100% - 42px)'}}>Confirm</div>];
     }
-    return <div className="message-container-editing">
+    return <div className="message-container editing">
         <div onClick={() => props.Cancel()} className="message-error-button" style={{marginTop: '0', width: 'calc(100% - 42px)'}}>Cancel</div>
         <div onClick={() => setBotCreate(true)} className={botCreate ? "message-button active" : "message-button"} style={{marginBottom: '10px'}}>Create New</div>
         <div onClick={() => setBotCreate(false)} className={!botCreate ? "message-button active pushRight" : "message-button pushRight"} style={{marginBottom: '10px'}}>Use Existing</div>
