@@ -43,17 +43,19 @@ const reducer = (state = initialState, action) => {
         }
         case "GUILDS_LOADED": {
             newState.guilds = action.data;
-            newState.guilds.sort((a,b) => {
-                let aP = (a.permissions & 0x00000008) === 0x00000008;
-                let bP = (b.permissions & 0x00000008) === 0x00000008;
+            if(action.data !== null) {
+                newState.guilds.sort((a,b) => {
+                    let aP = (a.permissions & 0x00000008) === 0x00000008;
+                    let bP = (b.permissions & 0x00000008) === 0x00000008;
 
-                if(aP && !bP)
-                    return -1;
-                else if(bP && !aP)
-                    return 1;
-                else
-                    return 0;
-            });
+                    if(aP && !bP)
+                        return -1;
+                    else if(bP && !aP)
+                        return 1;
+                    else
+                        return 0;
+                });
+            }
             newState.loadingGuilds = false;
             newState.loadedGuilds = true;
             return newState;
