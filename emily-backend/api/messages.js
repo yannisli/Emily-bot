@@ -175,8 +175,8 @@ router.post("/guild/:id/channels/:channel_id/create", CatchAsync(async (req, res
         let newObj = {
             guild: guild_id,
             channel: channel_id,
-            reactions: {},
-            message: reply.id
+            message: reply.id,
+            reactions: []
         };
 
         let msg = new msgs(newObj);
