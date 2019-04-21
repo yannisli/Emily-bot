@@ -57,19 +57,19 @@ client.on("messageReactionAdd", (reaction, user) => {
     if(!reactionData[reaction.message.id]) {
         return;
     }
-    reaction.remove(user);
+    reaction.remove(user).catch(err => console.error(err));
     // Add user to role
     reaction.message.guild.fetchMember(user).then( member => {
         if(member.roles.get(reactionData[reaction.message.id].reactions[reaction.emoji.id])) {
             console.log(`Removed ${user.username}#${user.discriminator} from role ${reactionData[reaction.message.id].reactions[reaction.emoji.id]}`);
-            member.removeRole(reactionData[reaction.message.id].reactions[reaction.emoji.id]);
+            member.removeRole(reactionData[reaction.message.id].reactions[reaction.emoji.id]).catch(err => console.error(err));
         }
         else
         {
             console.log(`Added ${user.username}#${user.discriminator} to role ${reactionData[reaction.message.id].reactions[reaction.emoji.id]}`);
-            member.addRole(reactionData[reaction.message.id].reactions[reaction.emoji.id]);
+            member.addRole(reactionData[reaction.message.id].reactions[reaction.emoji.id]).catch(err => console.error(err));
         }
-    }).catch(err => console.log(err));
+    }).catch(err => console.error(err));
 });
 
 // Obtained from Github for non-cached messages
@@ -101,10 +101,10 @@ client.on('raw', packet => {
 // On ready
 client.on("ready", () => {
 
-    client.user.setActivity("emi.gg", {url: 'http://emi.gg', type: 3});
+    client.user.setActivity("emi.gg", {url: 'http://emi.gg', type: 3}).catch(err => console.error(err));
     console.log(`Logged in as ${client.user.tag}!`);
     // After 3 seconds, look for the messages we have registered and add reactions to them, and remove reactions that aren't registered
-    client.setTimeout(() => {   
+    setTimeout(() => {   
        
         for(let msg_id in reactionData) {
 
@@ -115,7 +115,7 @@ client.on("ready", () => {
                 .then(msg => {
                     // React for emojis we have registered
                     for(let emoji in reactionData[msg_id].reactions) {
-                        msg.react(emoji);
+                        msg.react(emoji).catch(err => console.error(err));
                     }
                     // Also collect emojis that are of us and make sure they are unreacted if not registered anymore
                     
@@ -129,7 +129,7 @@ client.on("ready", () => {
                         if(!exists) {
                             console.log("Does not exist");
                             reaction.fetchUsers(100).then(col => col.forEach(user => {
-                                reaction.remove(user);
+                                reaction.remove(user).catch(err => console.error(err));
                             }));
                         }
                         
@@ -145,6 +145,7 @@ client.on("ready", () => {
 
 
 client.on("message", msg => {
+    /*
     if(!msg.guild) return;
     if(msg.content.startsWith('!roles'))
     {
@@ -212,7 +213,7 @@ client.on("message", msg => {
             }
             
         });
-    }
+    }*/
 });
 
 const io = require("socket.io-client");
@@ -224,7 +225,7 @@ socket.on("authenticated", (status) => {
     if(status)
     {
         console.log("Connected to API and Authenticated");
-        client.login(process.env.BOT_TOKEN);
+        client.login(process.env.BOT_TOKEN).catch(err => console.error(err));
     }
 });
 
@@ -244,7 +245,7 @@ socket.on("newReaction", data => {
     let channel = guild.channels.get(reactionData[msg_id].channel_id);
 
     channel.fetchMessage(msg_id).then(msg => {
-        msg.react(reaction.emoji);
+        msg.react(reaction.emoji).catch(err => console.error(err));
     }).catch(err => console.error(err));
 });
 
@@ -265,12 +266,12 @@ socket.on("reactionEdit", data => {
     let channel = guild.channels.get(reactionData[msg_id].channel_id);
     if(curEmoji !== data.data.newEmoji)
         channel.fetchMessage(msg_id).then(msg => {
-            msg.react(data.data.newEmoji);
+            msg.react(data.data.newEmoji).catch(err => console.error(err));
             msg.reactions.forEach(reaction => {
                 if(reaction.emoji.id === curEmoji)
                 {
                     reaction.users.forEach(user => {
-                        reaction.remove(user);
+                        reaction.remove(user).catch(err => console.error(err));
                     });
                 }
             });
@@ -295,7 +296,7 @@ socket.on("reactionDelete", data => {
             msg.reactions.forEach(reaction => {
                 if(reaction.emoji.id === emoji)
                     reaction.users.forEach(user => {
-                        reaction.remove(user);
+                        reaction.remove(user).catch(err => console.error(err));
                     });
             });
         }).catch(err => console.error(err));
@@ -314,7 +315,7 @@ socket.on("messageDelete", data => {
 
             msg.reactions.forEach(reaction => {
                 reaction.users.forEach(user => {
-                    reaction.remove(user);
+                    reaction.remove(user).catch(err => console.error(err));
                 });
             });
 
