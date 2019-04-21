@@ -71,6 +71,6 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-content: flex-start;
 }
