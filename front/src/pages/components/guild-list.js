@@ -19,7 +19,7 @@ class GuildList extends Component {
                 avatar = <div className="dashboard-list-avatar circular">{this.props.Guilds[i].name.substr(0,1)}</div>
             let element = <Link to={`/dashboard/guild/${this.props.Guilds[i].id}`} onClick={() => {
                     this.props.dispatch({type: "GUILD_SELECTED", data: i});
-                }} className={perms ? "dashboard-selection pushLeft" : "dashboard-selection-noperms pushLeft"} key={`guild${i}`}>
+                }} className={perms ? "dashboard-selection" : "dashboard-selection-noperms"} key={`guild${i}`}>
                 {avatar}
                 <span>
                     {this.props.Guilds[i].name}
