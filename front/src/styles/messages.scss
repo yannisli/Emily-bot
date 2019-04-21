@@ -260,7 +260,9 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
 
     margin-bottom: 2px;
     
-    transition: border .1s linear;
+    transition-property: border height;
+    transition-duration: .5s;
+    transition-timing-function: linear;
 }
 @media screen and (max-width: 1024px) {
     .reaction-container {

@@ -63,7 +63,7 @@ const NewMessage = props => {
 
     const [sending, setSending] = useState(false);
 
-    const [botCreate, setBotCreate] = useState(false);
+    const [botCreate, setBotCreate] = useState(true);
 
     const [selectedMessage, setSelectedMessage] = useState(null);
 

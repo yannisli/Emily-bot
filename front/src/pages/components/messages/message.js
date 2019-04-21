@@ -33,7 +33,7 @@ const Message = props => {
 
     let buttons = [];
 
-    let editButton = <div key="edit" className={(!canEdit || deleting || creating) ? "message-button disabled" : "message-button"} onClick={() => {if(!canEdit) return; setEditing(true)}}>Edit Message</div>
+    let editButton = <div key="edit" className={(!canEdit || deleting || creating) ? "message-button disabled" : "message-button"} onClick={() => {if(!canEdit || deleting || creating) return; setEditing(true)}}>Edit Message</div>
 
     if(!deleting)
     {
