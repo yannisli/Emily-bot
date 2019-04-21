@@ -65,6 +65,27 @@ router.get("/guild/:id", CatchAsync(async (req, res) => {
     else
         res.status(200).json(guild);
 }));
+
+router.get("/guild/:id/members", CatchAsync(async (req, res) => {
+
+    let guild_id = req.params.id;
+
+    console.log(req.query);
+    
+    let limit = req.query.limit || "1";
+    let after = req.query.after || "0";
+
+    if(after === 'undefined')
+        after = '0';
+
+    let results = await DiscordGet(`https://discordapp.com/api/guilds/${guild_id}/members?limit=${limit}&after=${after}`);
+
+    if(!results)
+        res.sendStatus(results);
+    else
+        res.status(200).json(results);
+    
+}));
 router.get("*", (req, res) => res.sendStatus(404));
 
 module.exports = router;

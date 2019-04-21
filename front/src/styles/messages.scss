@@ -125,6 +125,7 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
 }
 
 
+
 .message-error-button:hover {
     background-color: $errorColor;
 }
@@ -165,12 +166,22 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     font-size: $fontSize;
     line-height: $fontSize;
     resize: none;
-    width: 100%;
+    width: calc(100% - 22px) ;
     border-radius: 5px;
     background-color: $primaryColor;
     border: 1px solid $outlineColor;
 }
 
+
+.message-textarea-autocomplete {
+    @extend %container;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    position: absolute;
+    width: 100%;
+    text-align: left;
+    transform: translateY(-100%);
+}
 .reaction-list-container {
 
     @extend %flex-box;

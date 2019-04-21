@@ -24,8 +24,8 @@ const NewMessage = props => {
     {
         inners = [<div key="header" className="message-header">Letting Emily create a new Message...</div>,
             <div key="channel" className="message-author" style={{width: '100%'}}>Select a channel...</div>,
-            <div key="message" className="message-author" style={{width: '100%'}}>Contents</div>,
-            <MessageTextarea key="text"/>,
+            //<div key="message" className="message-author" style={{width: '100%'}}>Contents</div>,
+            <MessageTextarea Guild={props.Guild} MsgData={props.MsgData} key="text"/>,
             <div key="confirm" className={contents != null && contents.length > 0 ? "message-button" : "message-button disabled"} style={{width: 'calc(100% - 42px)'}}>Confirm</div>];
     }
     return <div className="message-container editing">

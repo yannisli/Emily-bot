@@ -100,6 +100,8 @@ client.on('raw', packet => {
 
 // On ready
 client.on("ready", () => {
+
+    client.user.setGame("emi.gg");
     console.log(`Logged in as ${client.user.tag}!`);
     // After 3 seconds, look for the messages we have registered and add reactions to them, and remove reactions that aren't registered
     client.setTimeout(() => {   
@@ -171,7 +173,8 @@ client.on("message", msg => {
         msg.delete();
     }
     else if(msg.content.startsWith('!try')) {
-        msg.channel.send("<a:pepejam:560323934151507978>\n<@&555612418500329472>\n<:monkaThink:545487018541580299>");   
+        
+        msg.channel.send("<@272421186166587393>\n<a:pepejam:560323934151507978>\n<@&555612418500329472>\n<:monkaThink:545487018541580299>");   
         msg.channel.send({embed: {
             color: 3342130,
             author: {
@@ -180,13 +183,35 @@ client.on("message", msg => {
             },
             title: "Roles List",
             url: "http://emi.gg",
-            description: "<a:pepejam:560323934151507978>\n<@&555612418500329472>\n<:monkaThink:545487018541580299>",
+            description: "<@272421186166587393>\n<a:pepejam:560323934151507978>\n<@&555612418500329472>\n<:monkaThink:545487018541580299>",
             timestamp: new Date(),
             footer: {
                 icon_url: client.user.avatarURL,
                 text: "Requested @"
             }
         }});
+        msg.delete();
+    }
+    else if(msg.content.startsWith("!fetch")) {
+        let args = msg.content.replace("!fetch", "").trim();
+        args = args.split(" ");
+        console.log("args:",args);
+        let ch = msg.channel;
+        fetch(`${process.env.API_URI}/api/${args[0]}`).then(res => {
+
+            if(!res.ok) {
+                ch.send(`Received response code ${res.status}`)
+                
+            }
+            else
+            {
+                res.json().then(json => {
+                    ch.send(`Response from API:\n${JSON.stringify(json)}`)
+                   
+                });
+            }
+            
+        });
     }
 });
 
