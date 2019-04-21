@@ -10,7 +10,7 @@ require('dotenv').config();
 
 mongoose.connect(
     process.env.MONGO_DB,
-    { useNewUrlParser: true }
+    { useFindAndModify: false, useNewUrlParser: true }
 );
 
 mongoose.connection.once("open", () => console.log("Successfully connected to MongoDB"));

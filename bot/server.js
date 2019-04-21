@@ -101,7 +101,7 @@ client.on('raw', packet => {
 // On ready
 client.on("ready", () => {
 
-    client.user.setGame("emi.gg");
+    client.user.setActivity("emi.gg", {url: 'http://emi.gg', type: 3});
     console.log(`Logged in as ${client.user.tag}!`);
     // After 3 seconds, look for the messages we have registered and add reactions to them, and remove reactions that aren't registered
     client.setTimeout(() => {   
@@ -336,27 +336,26 @@ socket.on("createMessage", data => {
 
     let guild = client.guilds.get(data.guild);
     let channel = guild.channels.get(data.channel);
-    channel.send({embed: {
-        color: 3342130,
-        author: {
-            name: client.user.username,
-            icon_url: client.user.avatarURL
-        },
-        title: "Reaction List",
-        url: "http://emi.gg",
-        description: data.contents,
-        timestamp: new Date(),
-        footer: {
-            icon_url: client.user.avatarURL,
-            text: "Created @"
-        }
-    }}).then(msg => {
+    channel.send(data.contents).then(msg => {
         reactionData[msg.id] = {
             id: msg.id,
             guild_id: data.guild,
             channel_id: data.channel,
             reactions: {}
         };
-        socket.emit("createMessage", msg.id);
+        socket.emit("createMessage", {
+            id: msg.id,
+            author: {
+                avatar: msg.author.avatar,
+                discriminator: msg.author.discriminator,
+                id: msg.author.id,
+                username: msg.author.username
+            },
+            channel: data.channel,
+            contents: data.contents,
+            discReactions: {},
+            embeds: [],
+            reactions: {}
+        });
     }).catch(err => console.error(err));
 });

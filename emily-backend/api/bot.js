@@ -1,6 +1,8 @@
 let sockets = [];
 
-
+const socketHasConnects = () => {
+    return sockets.length > 0;
+}
 const socketOnConnect = socket => {
     if(socket.handshake.query.token !== process.env.SOCKET_TOKEN)
     {
@@ -64,4 +66,5 @@ router.get("*", (req, res) => res.sendStatus(404));
 
 exports.SocketOnConnect = socketOnConnect;
 exports.SocketEmit = socketEmit;
+exports.SocketHasConnection = socketHasConnects;
 exports.Router = router;

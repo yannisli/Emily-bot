@@ -3,6 +3,7 @@ const initialState = {
     loading: false,
     loaded: false,
     creating: false,
+    members: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +11,18 @@ const reducer = (state = initialState, action) => {
     let newState = Object.assign({}, state);
 
     switch(action.type) {
+        case "MESSAGE_DELETED": {
+            let newData = Object.assign({}, newState.data);
+
+            delete newData.Messages[action.data];
+
+            newState.data = newData;
+            return newState;
+        }
+        case "GUILD_MEMBERS_LOADED": {
+            newState.members = action.data;
+            return newState;
+        }
         case "SET_CREATING": {
             newState.creating = action.data;
             return newState;
@@ -17,7 +30,7 @@ const reducer = (state = initialState, action) => {
         case "NEW_MESSAGE": {
             let newData = Object.assign({}, newState.data);
 
-            newData.Messages[action.data.message] = action.data.messageObject;
+            newData.Messages[action.data.id] = action.data;
 
             newState.data = newData;
             

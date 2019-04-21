@@ -62,6 +62,15 @@ $emojiSize: calc(10px + 1.3vmax);
     word-wrap: break-word;
 }
 
+.message-text-button {
+    @extend .message-author, %text-button;
+    margin-bottom: 10px;
+}
+
+.message-mention {
+    color: $buttonColor;
+    background-color: rgba(105, 126, 196, 0.2);
+}
 .messages-header {
    
     @extend %header;
@@ -151,6 +160,51 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     
 }
 
+
+.message-dropdown-inner {
+    @extend %inner-container;
+    
+    width: 100%;
+
+    flex-shrink: 1;
+
+    height: fit-content;
+    z-index: 5;
+
+}
+.message-dropdown-outer {
+    @extend %outer-container;
+    width: calc(100% - 2px);
+    height: fit-content;
+    position: absolute;
+    bottom: calc(#{$subheaderSize} + 10px);
+    border: 1px solid $outlineColor;
+    flex-shrink: 1;
+    z-index: 5;
+}
+
+.message-dropdown-container {
+    @extend %container;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    
+    background-color: $secondaryColor;
+    
+    text-align: left;
+    padding: 10px;
+    width: calc(100% - 20px);
+    flex-shrink: 1;
+}
+
+.message-dropdown-content {
+    @extend %text-button;
+    font-size: $subheaderSize;
+    line-height: $subheaderSize;
+    height: $subheaderSize;
+}
+
 .message-id {
     @extend .message-discriminator;
     margin-top: 10px;
@@ -158,30 +212,6 @@ $discrimHeight: calc(#{$subheaderSize} - 0.75vmin);
     text-align: left;
 }
 
-.message-textarea {
-    
-    overflow: hidden;
-    color: white;
-    padding: 10px;
-    font-size: $fontSize;
-    line-height: $fontSize;
-    resize: none;
-    width: calc(100% - 22px) ;
-    border-radius: 5px;
-    background-color: $primaryColor;
-    border: 1px solid $outlineColor;
-}
-
-
-.message-textarea-autocomplete {
-    @extend %container;
-    flex-direction: column-reverse;
-    align-items: flex-start;
-    position: absolute;
-    width: 100%;
-    text-align: left;
-    transform: translateY(-100%);
-}
 .reaction-list-container {
 
     @extend %flex-box;
@@ -383,4 +413,88 @@ $reactionButtonSize: calc(10px + 1vmin);
     @extend .reaction-inline-notif;
 
     border-color: $errorColor;
+}
+
+
+.message-textarea {
+    
+    overflow: hidden;
+    color: white;
+    padding: 10px;
+    font-size: $fontSize;
+    font-weight: 300;
+    font-family: 'Roboto';
+    resize: none;
+    width: calc(100% - 22px) ;
+    border-radius: 5px;
+    background-color: $primaryColor;
+    border: 1px solid $outlineColor;
+}
+
+
+.autocomplete-inner {
+    @extend %inner-container;
+    
+    width: 100%;
+
+    flex-shrink: 1;
+
+    height: fit-content;
+    z-index: 5;
+
+}
+.autocomplete-outer {
+    @extend %outer-container;
+    width: calc(100% - 2px);
+    height: fit-content;
+    position: absolute;
+    transform: translateY(-100%);
+    border: 1px solid $outlineColor;
+    flex-shrink: 1;
+    z-index: 5;
+}
+
+.autocomplete-container {
+    @extend %container;
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    
+    background-color: $secondaryColor;
+    
+    text-align: left;
+    padding: 10px;
+    width: calc(100% - 20px);
+    flex-shrink: 1;
+}
+
+.autocomplete-line {
+    @extend %flex-box;
+
+    flex-direction: row;
+    cursor: pointer;
+
+    width: 100%;
+
+    height: 32px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+
+    border-radius: 5px;
+}
+
+.autocomplete-emoji {
+    @extend .message-emoji;
+
+}
+
+.autocomplete-text {
+    
+    font-size: $fontSize;
+    margin-left: 4px;
+}
+
+.autocomplete-active {
+    background-color: $primaryColor;
 }

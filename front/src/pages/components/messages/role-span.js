@@ -7,7 +7,6 @@ const getHexaColor = color => typeof(color) === String ? color.parseInt(color, 1
 
 const RoleSpan = props => {
 
-   
     let contents = [];
     let regex = props.str.match(/<@&[0-9]*>/g);
 
@@ -30,12 +29,12 @@ const RoleSpan = props => {
             {
                 contents.push(<br key={`rolespawninitialbr${i}`}/>);
                 if(newlines[i].length > 0)
-                    contents.push(<AnimatedEmoji key={`rolespaninitialnl${i}`} str={newlines[i]}></AnimatedEmoji>);
+                    contents.push(<AnimatedEmoji Users={props.Users} key={`rolespaninitialnl${i}`} str={newlines[i]}></AnimatedEmoji>);
             }
             
         }
         else if(strBefore.length > 0) // Evaluate for emoji
-            contents.push(<AnimatedEmoji key={`rolespaninitialbefore`} str={strBefore}></AnimatedEmoji>);
+            contents.push(<AnimatedEmoji Users={props.Users} key={`rolespaninitialbefore`} str={strBefore}></AnimatedEmoji>);
 
         if(expl.length > 1)
         {
@@ -48,21 +47,25 @@ const RoleSpan = props => {
                 {
                     if(props.Roles[x].id === sub_id)
                     {
-                        contents.push(<span key={`rolespan${sub_id}aft`} style={{color: `#${getHexaColor(props.Roles[x].color)}`}}>@{props.Roles[x].name}</span>);
+                        let c = parseInt(props.Roles[x].color, 10);
+                        let r = Math.floor(c / (256*256));
+                        let g = Math.floor(c / 256) % 256;
+                        let b = c % 256;
+                        contents.push(<span key={`rolespan${sub_id}aft${i}`} style={{backgroundColor: `rgba(${r},${g},${b},0.1)`, color: `#${getHexaColor(props.Roles[x].color)}`}}>@{props.Roles[x].name}</span>);
                         let newline = rest.split("\n");
                         if(newline.length > 1)
                         {
-                            contents.push(<span key={`rolespawn${sub_id}nlcontent0`}>{newline[0]}</span>)
+                            contents.push(<span key={`${i}rolespawn${sub_id}nlcontent0`}>{newline[0]}</span>)
                             for(let j = 1; j < newline.length; j++)
                             {
-                                contents.push(<br key={`rolespawn${sub_id}nl${j}`}/>);
+                                contents.push(<br key={`${i}rolespawn${sub_id}nl${j}`}/>);
                                 // Evaluate the content to see if there's an animated emoji
-                                contents.push(<AnimatedEmoji key={`rolespawn${sub_id}nlcontent${j}`} str={newline[j]}></AnimatedEmoji>);
+                                contents.push(<AnimatedEmoji Users={props.Users} key={`${i}rolespawn${sub_id}nlcontent${j}`} str={newline[j]}></AnimatedEmoji>);
                             }
                         }
                         else {
                             // Evaluate the content to see if there's an animated emoji
-                            contents.push(<AnimatedEmoji key={`rolespawn${sub_id}rest`} str={rest}></AnimatedEmoji>);
+                            contents.push(<AnimatedEmoji Users={props.Users} key={`rolespawn${sub_id}rest${i}`} str={rest}></AnimatedEmoji>);
                         }
                         break;
                     }
@@ -74,7 +77,7 @@ const RoleSpan = props => {
         return contents;
         
     }
-    return <AnimatedEmoji str={props.str}></AnimatedEmoji>;
+    return <AnimatedEmoji Users={props.Users} str={props.str}></AnimatedEmoji>;
 }
 
 export default RoleSpan;

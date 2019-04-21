@@ -3,6 +3,8 @@ import MessageContents from './message-contents';
 
 import ReactionList from './reaction-list';
 
+import store from '../../../store';
+
 const Message = props => {
 
     if(!props.Message)
@@ -49,7 +51,18 @@ const Message = props => {
     {
         buttons.push(<div key="register" className={(deleting || editing || creating) ? "message-button disabled" : "message-button"} onClick={() => {if(editing || deleting) return; setCreating(true)}}>New Reaction</div>);
         buttons.push(editButton);
-        buttons.push(<div key="confirm" className="message-button">Delete</div>);
+        buttons.push(<div key="confirm" onClick={() => {
+            
+            fetch(`/api/messages/message/${props.Message.id}`,
+            {method: 'DELETE'}).then(res => {
+                if(res.ok)
+                {
+                    store.dispatch({type: "MESSAGE_DELETED", data: props.Message.id});
+                    
+                }
+            }).catch(err => console.error(err));
+            
+        }}className="message-button">Delete</div>);
         buttons.push(<div key="cancel" className="message-error-button" onClick={() => setDeleting(false)}>Cancel</div>);
     }
 
@@ -77,7 +90,7 @@ const Message = props => {
         <span className="message-id">{props.Message.id}</span>
         {displayed &&
             [<div key="contents" className="message-contents">
-                <MessageContents Guild={props.Guild} Message={props.Message}/>
+                <MessageContents Users={props.Users} Guild={props.Guild} MessageID={props.Message.id} Contents={props.Message.contents}/>
                 <br/>
                 <div className="message-attachments-container">
                     {attachments}

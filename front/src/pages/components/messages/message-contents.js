@@ -12,10 +12,10 @@ const MessageContents = props => {
      */
     let contents = [];
     // Regex matches for normal emoji
-    let regex = props.Message.contents.match(/<:[A-Za-z0-9]*:[0-9]*>/g);
+    let regex = props.Contents.match(/<:[A-Za-z0-9_]*:[0-9]*>/g);
 
     // Remainder of the contents we still need to parse
-    let remainder = props.Message.contents;
+    let remainder = props.Contents;
     // If we have regex matches
     if(regex !== null)
     {
@@ -36,23 +36,23 @@ const MessageContents = props => {
             if(newlines.length > 1)
             {
                 if(newlines[0].length > 0)
-                    contents.push(<RoleSpan Roles={props.Guild.roles} str={newlines[0]} key={`${i}msg${props.Message.id}nl0`}/>);
+                    contents.push(<RoleSpan Users={props.Users} Roles={props.Guild.roles} str={newlines[0]} key={`${i}msg${props.MessageID}nl0`}/>);
 
                 for(let x = 1; x < newlines.length; x++)
                 {
-                    contents.push(<br key={`${i}msg${props.Message.id}br${x}`}/>);
+                    contents.push(<br key={`${i}msg${props.MessageID}br${x}`}/>);
                     if(newlines[x].length > 0)
-                        contents.push(<RoleSpan Roles={props.Guild.roles} str={newlines[x]} key={`${i}msg${props.Message.id}nlsp${x}`}/>);
+                        contents.push(<RoleSpan Users={props.Users} Roles={props.Guild.roles} str={newlines[x]} key={`${i}msg${props.MessageID}nlsp${x}`}/>);
                 
                 }
             }
             else if(expl[0].length > 0)
             {
-                contents.push(<RoleSpan Roles={props.Guild.roles} str={expl[0]} key={`${i}msg${props.Message.id}nlsp0`}/>);
+                contents.push(<RoleSpan Users={props.Users} Roles={props.Guild.roles} str={expl[0]} key={`${i}msg${props.MessageID}nlsp0`}/>);
             }
 
             // Push the emoji
-            contents.push(<img alt="" key={`${i}msg${props.Message.id}emoji${i}`} src={`https://cdn.discordapp.com/emojis/${id[2].substr(0, id[2].length-1)}.png`} className="message-emoji"/>);
+            contents.push(<img alt="" key={`${i}msg${props.MessageID}emoji${i}`} src={`https://cdn.discordapp.com/emojis/${id[2].substr(0, id[2].length-1)}.png`} className="message-emoji"/>);
 
             // We need to concatenate to properly represent the rest of the string we have not used parsed
             if(expl.length >= 3)
@@ -74,7 +74,7 @@ const MessageContents = props => {
     }
 
     // Push the remaining string, it will also be checked for Role mentions and Animated Emojis
-    contents.push(<RoleSpan Roles={props.Guild.roles} str={remainder} key={`remainder${props.Message.id}`}/>);
+    contents.push(<RoleSpan Users={props.Users} Roles={props.Guild.roles} str={remainder} key={`remainder${props.MessageID}`}/>);
 
     return contents;
 }

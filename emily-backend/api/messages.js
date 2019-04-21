@@ -4,7 +4,7 @@ const { GetUserTokens } = require("./oauth2");
 
 const { CatchAsync, DiscordGet, ValidateSnowflake } = require("../utils");
 
-const { SocketEmit } = require("./bot");
+const { SocketEmit, SocketHasConnection } = require("./bot");
 
 const router = express.Router();
 
@@ -172,17 +172,21 @@ router.post("/guild/:id/channels/:channel_id/create", CatchAsync(async (req, res
     SocketEmit("createMessage", data, reply => {
         // Reply is the data!
         console.log("Received createMessage emit from Bot", reply);
-        delete data["contents"];
-        data["message"] = reply;
-        data["reactions"] = {};
-        let msg = new msgs(data);
-        msg.save().then((err, newMessage) => {
+        let newObj = {
+            guild: guild_id,
+            channel: channel_id,
+            reactions: {},
+            message: reply.id
+        };
+
+        let msg = new msgs(newObj);
+        msg.save((err) => {
             if(err) {
-                console.error(err);
+                console.error("There was an error", err);
                 return res.status(500).send(err);
             }
 
-            res.status(201).json(newMessage);
+            res.status(201).json(reply);
         });
     });
 }));
@@ -191,6 +195,12 @@ router.post("/guild/:id/channels/:channel_id/create", CatchAsync(async (req, res
 router.post("/message/:message_id/reaction/create", CatchAsync(async (req, res) => {
     if(!await GetUserTokens(req, res)) {
         res.sendStatus(401);
+        return;
+    }
+
+    if(!SocketHasConnection())
+    {
+        res.sendStatus(500).send("Bot is offline");
         return;
     }
 
@@ -282,6 +292,11 @@ router.delete("/message/:message_id", CatchAsync(async (req, res) => {
         return;
     }
 
+    if(!SocketHasConnection())
+    {
+        res.status(500).send("Bot is offline");
+        return;
+    }
     let message_id = req.params.message_id;
 
     if(!ValidateSnowflake(message_id)) {

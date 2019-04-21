@@ -1,5 +1,6 @@
 import React from 'react';
 
+import UserMention from './user-mention';
 
 const AnimatedEmoji = props => {
 
@@ -12,7 +13,7 @@ const AnimatedEmoji = props => {
     let remainder = props.str;
     // If no matches, just return a span of this element
     if(regex === null)
-        return <span>{props.str}</span>
+        return <UserMention Users={props.Users} str={props.str}/>;
     else {
 
         // Split the text
@@ -40,16 +41,16 @@ const AnimatedEmoji = props => {
                 // Append spans with line breaks
                 // 0 based element doesn't have a line break since \n appears after it
                 if(newlines[0].length > 0)
-                    contents.push(<span key={`${i}animated${id}nlcont0`}>{newlines[0]}</span>);
+                    contents.push(<UserMention Users={props.Users} key={`${i}animated${id}nlcont0`} str={newlines[0]}/>);
                 for(let j = 1; j < newlines.length; j++)
                 {
                     contents.push(<br key={`animated${id}nl${j}`}/>);
                     if(newlines[j].length > 0)
-                        contents.push(<span key={`animated${id}nlcont${j}`}>{newlines[j]}</span>);
+                        contents.push(<UserMention Users={props.Users} key={`animated${id}nlcont${j}`} str={newlines[j]}/>);
                 }
             }
             else if(expl[0].length > 0) // No newlines, don't need to loop
-                contents.push(<span key={`animated${id}remainder${i}`}>{expl[0]}</span>)
+                contents.push(<UserMention Users={props.Users} key={`animated${id}remainder${i}`} str={expl[0]}/>);
 
             // Append our animated gif
             contents.push(<img src={`https://cdn.discordapp.com/emojis/${id}.gif`} alt="" key={`${i}animated${id}emoji`} className="message-emoji"/>);
@@ -71,7 +72,7 @@ const AnimatedEmoji = props => {
             }
         }
         // Push the remaining string to display as well
-        contents.push(<span key={`animatedemojiremainders`}>{remainder}</span>);
+        contents.push(<UserMention Users={props.Users} key={`animatedemojiremainders`} str={remainder}/>);
     }
 
     return contents;

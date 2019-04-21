@@ -13,6 +13,46 @@ import Message from './messages/message';
 
 import NewMessage from './messages/new-message';
 
+const fetchUsers = async guild_id => {
+    let users = {};
+  
+    let after = "0";
+    // eslint-disable-next-line no-constant-condition
+    while(true) {
+
+        let response = await fetch(`/api/discord/guild/${guild_id}/members?limit=1000&after=${after}`);
+
+        if(!response.ok)
+            break;
+        
+        let json = await response.json();
+
+        console.log("Got response", json);
+        if(!json || json.length === 0)
+            break;
+        
+        // Loop through json and add to map
+        for(let i = 0; i < json.length; i++)
+        {
+            let user = json[i].user;
+            users[user.id] = {
+                username: user.username,
+                discriminator: user.discriminator,
+                id: user.id,
+                avatar: user.avatar
+            };
+        }
+        if(json.length < 1000)
+            break;
+        after = json[json.length-1].user.id;
+        // Prevent from sending too many requests at a time
+        await new Promise(resolve => setTimeout(resolve, 2000));
+
+    }
+
+    return users;
+    
+};
 class Messages extends Component {
     render() {
         if(!this.props.Guild)
@@ -38,7 +78,7 @@ class Messages extends Component {
             {
                 let msg = this.props.MsgData.Messages[msg_id];
 
-                contents.push(<Message key={msg_id} MsgData={this.props.MsgData} Guild={this.props.GuildData} Message={msg}/>);
+                contents.push(<Message key={msg_id} Users={this.props.Users} MsgData={this.props.MsgData} Guild={this.props.GuildData} Message={msg}/>);
             }
 
             return <div className="messages-container">
@@ -50,7 +90,7 @@ class Messages extends Component {
                     Register a new Message
                 </div>
                 }
-                {this.props.Creating && <NewMessage Cancel={() => this.props.dispatch({type: "SET_CREATING", data: false})} Guild={this.props.GuildData} MsgData={this.props.MsgData} /> }
+                {this.props.Creating && <NewMessage Cancel={() => this.props.dispatch({type: "SET_CREATING", data: false})} Users={this.props.Users} Guild={this.props.GuildData} MsgData={this.props.MsgData} /> }
                 {contents.length === 0 &&
                     <div className="board-error">
                         Looks like you have no messages registered...
@@ -84,6 +124,13 @@ class Messages extends Component {
                 }).catch(err => console.error(err));
             }
         }).catch(err => console.error(err));
+
+
+        fetchUsers(this.props.Guild.id).then(data => {
+            console.log("Returned!", data);
+
+            this.props.dispatch({type: "GUILD_MEMBERS_LOADED", data: data});
+        });
     }
 }
 
@@ -93,6 +140,7 @@ export default connect(state => {
         Loading: state.messages.loading,
         Loaded: state.messages.loaded,
         GuildData: state.core.selectedGuildData,
-        Creating: state.messages.creating
+        Creating: state.messages.creating,
+        Users: state.messages.members
     }
 })(Messages);
