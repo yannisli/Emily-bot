@@ -19,7 +19,7 @@ class Dashboard extends Component {
 
     render() {
         let innerContents;
-        if(this.props.User === null) {
+        if(this.props.Loaded && this.props.User === null) {
             return <Redirect to="/"/>;
         }
         if(!this.props.location.pathname.includes("guild")) {
@@ -68,6 +68,8 @@ class Dashboard extends Component {
 
             if(!res.ok) {
                 console.error(res.status);
+                // If its unauthorized we should set state to redirect back to home
+                this.props.dispatch({type: "GUILDS_LOADED", data: null});
             }
             else
             {

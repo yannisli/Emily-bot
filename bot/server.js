@@ -104,43 +104,42 @@ client.on("ready", () => {
     client.user.setActivity("emi.gg", {url: 'http://emi.gg', type: 3}).catch(err => console.error(err));
     console.log(`Logged in as ${client.user.tag}!`);
     // After 3 seconds, look for the messages we have registered and add reactions to them, and remove reactions that aren't registered
-    setTimeout(() => {   
-       
-        for(let msg_id in reactionData) {
 
-            let guild = client.guilds.get(reactionData[msg_id].guild_id);
-            let channel = guild.channels.get(reactionData[msg_id].channel_id);
+    for(let msg_id in reactionData) {
 
-            channel.fetchMessage(msg_id)
-                .then(msg => {
-                    // React for emojis we have registered
-                    for(let emoji in reactionData[msg_id].reactions) {
-                        msg.react(emoji).catch(err => console.error(err));
-                    }
-                    // Also collect emojis that are of us and make sure they are unreacted if not registered anymore
+        let guild = client.guilds.get(reactionData[msg_id].guild_id);
+        let channel = guild.channels.get(reactionData[msg_id].channel_id);
+
+        channel.fetchMessage(msg_id)
+            .then(msg => {
+                // React for emojis we have registered
+                for(let emoji in reactionData[msg_id].reactions) {
+                    msg.react(emoji).catch(err => console.error(err));
+                }
+                // Also collect emojis that are of us and make sure they are unreacted if not registered anymore
+                
+                msg.reactions.forEach((reaction) => 
+                {
+                    // Check if this exists in reactions
                     
-                    msg.reactions.forEach((reaction) => 
-                    {
-                        // Check if this exists in reactions
-                        
-                        let exists = reactionData[msg_id].reactions[reaction.emoji.id] !== undefined;
-                        
-                        // Doesn't exist so remove all reactions
-                        if(!exists) {
-                            console.log("Does not exist");
-                            reaction.fetchUsers(100).then(col => col.forEach(user => {
-                                reaction.remove(user).catch(err => console.error(err));
-                            }));
-                        }
-                        
-                    });
-                })
-                .catch(err => {
-                    if(err.message !== 'Unknown Message')
-                        console.error(err);
+                    let exists = reactionData[msg_id].reactions[reaction.emoji.id] !== undefined;
+                    
+                    // Doesn't exist so remove all reactions
+                    if(!exists) {
+                        console.log("Does not exist");
+                        reaction.fetchUsers(100).then(col => col.forEach(user => {
+                            reaction.remove(user).catch(err => console.error(err));
+                        }));
+                    }
+                    
                 });
-        }
-    }, 3000);
+            })
+            .catch(err => {
+                if(err.message !== 'Unknown Message')
+                    console.error(err);
+            });
+    }
+
 });
 
 
