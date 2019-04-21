@@ -7,7 +7,6 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    console.log("Messages Reduce", state, action);
     let newState = Object.assign({}, state);
 
     switch(action.type) {

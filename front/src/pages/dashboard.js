@@ -14,9 +14,6 @@ import GuildList from './components/guild-list';
 
 import GuildBoard from './components/guild-board';
 
-import Announcement from '../components/announcement';
-
-
 
 class Dashboard extends Component {
 
@@ -51,7 +48,6 @@ class Dashboard extends Component {
             <div className="dashboard-outer">
                 <div className="dashboard-inner">
                     <div className="dashboard-container">
-                        {!this.props.Loading && <Announcement/>}
                         {innerContents}
                     </div>
                 </div>

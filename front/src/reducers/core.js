@@ -12,7 +12,7 @@ const initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-    console.log("Core Reduce", state, action);
+    console.log("Reduce", state, action);
     let newState = Object.assign({}, state);
 
     switch(action.type) {

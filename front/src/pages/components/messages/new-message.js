@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import MessageTextarea from './message-textarea';
 
@@ -24,9 +24,9 @@ let transpileFrontToBack = (frontStr, roles, emojis, users) => {
 
     for(let i = 0; i < roles.length; i++)
     {
-        console.log("splitting");
+
         let split = roles[i].name.split(" ");
-        console.log(split);
+
 
         if(!rolesDesc[split.length])
             rolesDesc[split.length] = [];
@@ -37,10 +37,10 @@ let transpileFrontToBack = (frontStr, roles, emojis, users) => {
 
     for(let i = keys.length-1; i >= 0; i--)
     {
-        console.log("Looking at roles with length ", keys[i]);
+
         let arr = rolesDesc[keys[i]];
 
-        console.log("arr is", arr);
+
         for(let j = 0; j < arr.length; j++)
         {
             retVal = retVal.replace(new RegExp(escapeRegExp(`@${arr[j].name}`), 'gi'), `<@&${arr[j].id}>`);
@@ -57,7 +57,6 @@ let transpileFrontToBack = (frontStr, roles, emojis, users) => {
         let user = users[userKeys[i]];
         retVal = retVal.replace(new RegExp(escapeRegExp(`@${user.username}#${user.discriminator}`), 'gi'), `<@${user.id}>`);
     }
-    console.log("retVal is ", retVal);
     return retVal;
 }
 const NewMessage = props => {
@@ -82,6 +81,15 @@ const NewMessage = props => {
 
 
     let inners;
+
+    if(err !== null)
+    {
+        return <div className="message-container editing">
+            <div className="message-header deleting">
+                {err}
+            </div>
+        </div>
+    }
 
     if(!botCreate) {
 

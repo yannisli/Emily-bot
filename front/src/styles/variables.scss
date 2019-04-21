@@ -165,6 +165,7 @@ $headerSize2: calc(10px + 2vmin);
 
 .announcement-box {
     margin-top: 2vh;
+    white-space: pre-line;
     border-radius: 5px;
     background-color: $errorColor;
     padding: 20px;

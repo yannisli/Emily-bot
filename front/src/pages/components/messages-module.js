@@ -27,7 +27,6 @@ const fetchUsers = async guild_id => {
         
         let json = await response.json();
 
-        console.log("Got response", json);
         if(!json || json.length === 0)
             break;
         
@@ -127,7 +126,6 @@ class Messages extends Component {
 
 
         fetchUsers(this.props.Guild.id).then(data => {
-            console.log("Returned!", data);
 
             this.props.dispatch({type: "GUILD_MEMBERS_LOADED", data: data});
         });

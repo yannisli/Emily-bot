@@ -186,7 +186,7 @@ const MessageTextarea = props => {
                     e.preventDefault();
                     return false;
                 }
-                else if(e.keyCode === 9 || e.keyCode == 13)
+                else if(e.keyCode === 9 || e.keyCode === 13)
                 {
                     e.preventDefault();
                     // Means we have something to autocomplete
@@ -236,7 +236,7 @@ const MessageTextarea = props => {
                 }
                 else
                 {
-                    if(start == -1)
+                    if(start === -1)
                     {
                         setCurSub("");
                     }

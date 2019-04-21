@@ -66,6 +66,7 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     @extend %flex-box;
 
     width: 100%;
+    margin-top: 2vh;
     -webkit-flex-direction: row;
     flex-direction: row;
     flex-wrap: wrap;
