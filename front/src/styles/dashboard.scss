@@ -15,7 +15,7 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     flex-direction: row;
     align-items: center;
     justify-content: flex-start;
-    width: calc(100% - 10px);
+    width: calc(100% - 12px);
     max-width: 254px;
     margin: 1px;
     height: $listHeight;
@@ -26,6 +26,20 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     flex-grow: 0;
     flex-shrink: 0;
 }
+
+@media only screen and (max-width: 900px)
+{
+    .dashboard-selection {
+        max-width: calc((100% - 54px) / 2);
+    }
+}
+@media only screen and (max-width: 600px)
+{
+    .dashboard-selection {
+        max-width: none;
+    }
+}
+
 
 .dashboard-selection:hover {
     background-color: $buttonColor;
@@ -71,6 +85,6 @@ $avatarPlaceholderSize: calc(10px + 1.6vmin);
     flex-direction: row;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-content: flex-start;
 }
