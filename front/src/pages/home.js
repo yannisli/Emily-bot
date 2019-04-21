@@ -70,7 +70,7 @@ class Home extends Component {
                                 About Me
                             </header>
                             <div>
-                                {`Hi there! I go by the name of Emi (笑み) online and I'm a former Computer Sciences and Software Development student that is currently interested in the web development field due to the sudden surge and prevalence of Progressive Web Applications and popular Native Web-Apps on the market such as Discord! I enjoy web development quite a lot and I started this project to demonstrate my aptitude in modern ECMAScript 2018 JavaScript alongside with the modern frameworks such as React.js, Redux.js, and Express.js, as well as the ability to use a MongoDB NoSQL Database. If you have any questions, feel free to shoot me a friend request on Discord, or contact me via Twitter!`}
+                                {`Hi there! I go by the name of Emi (笑み) online and I'm a former Computer Sciences and Software Development student that is currently interested in the web development field due to the sudden surge and prevalence of Progressive Web Applications and popular Native Web-Apps on the market such as Discord! I enjoy web development quite a lot and I started this project to demonstrate my aptitude in modern ECMAScript 2018 JavaScript alongside modern frameworks such as React.js, Redux.js, and Express.js, as well as the ability to use a MongoDB Database. If you have any questions, feel free to shoot me a friend request on Discord, or contact me via Twitter!`}
                             </div>
                         </div>
                     </div>
