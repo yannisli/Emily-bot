@@ -19,6 +19,9 @@ class Dashboard extends Component {
 
     render() {
         let innerContents;
+        if(this.props.User === null) {
+            return <Redirect to="/"/>;
+        }
         if(!this.props.location.pathname.includes("guild")) {
             
 
@@ -81,6 +84,7 @@ export default withRouter(connect(state => {
         Guilds: state.core.guilds,
         Selected: state.core.selectedGuild,
         Loading: state.core.loadingGuilds,
-        Loaded: state.core.loadedGuilds
+        Loaded: state.core.loadedGuilds,
+        User: state.core.user
     }
 })(Dashboard));
