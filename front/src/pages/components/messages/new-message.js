@@ -239,7 +239,7 @@ const NewMessage = props => {
                             channel: selectedChannel.id,
                             contents: selectedMessage.content,
                             discReactions: {},
-                            reactions: {},
+                            reactions: [],
                             id: selectedMessage.id,
                             embeds: selectedMessage.embeds
                         };
