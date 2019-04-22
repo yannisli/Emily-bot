@@ -2,11 +2,11 @@ import React from 'react';
 
 export default function Announcement() {
     return <div className="announcement-box">{
-        `Hi, currently the bot is under active development so a lot of features may be buggy, missing, or outright not working, as well as subject to change. 
+        `Currently the bot is under active development so a lot of features may be buggy, missing, or outright not working, as well as subject to change. 
         
-        As of now, the bot is in a "somewhat" stable state with most of it's core functionality implemented, however there are no guarantees on the performance or ability to handle larger loads than a few people.
+        As of now, the bot has all of it's planned core functionality implemented (Reaction Roles), however visible error feedback may not be present for some actions if the Discord API server encounters an error or the internal server. Sorry!
 
-        If there are any glaring issues, please let me know @ Emi#5366
+        If there are any issues or bugs you encounter you can let me know @ Emi#5366
         `}
     </div>
 }
