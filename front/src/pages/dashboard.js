@@ -23,7 +23,7 @@ class Dashboard extends Component {
             return <Redirect to="/"/>;
         }
         if(this.props.LoadError !== null) {
-            innerContents = <div className="board-error">
+            innerContents = <div className="board-error pushLeft pushRight">
                 {this.props.LoadError}
             </div>
         }

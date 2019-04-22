@@ -58,7 +58,7 @@ class Messages extends Component {
             throw new Error("GuildBoard was not assigned a Guild prop");
         if(this.props.LoadError !== null)
         {
-            return <div className="board-error">
+            return <div className="board-error pushLeft pushRight">
                 {this.props.LoadError}
             </div>
         }
