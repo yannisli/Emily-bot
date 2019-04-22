@@ -225,7 +225,12 @@ socket.on("authenticated", (status) => {
     if(status)
     {
         console.log("Connected to API and Authenticated");
-        client.login(process.env.BOT_TOKEN).catch(err => console.error(err));
+        try {
+            client.login(process.env.BOT_TOKEN).catch(err => console.error(err));
+        }
+        catch (err) {
+            console.error("Something went wrong!", err);
+        }
     }
 });
 
