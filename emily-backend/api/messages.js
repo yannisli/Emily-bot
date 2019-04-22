@@ -137,7 +137,7 @@ router.post("/guild/:id/register", CatchAsync(async (req, res) => {
     }
 
     // Insert into document
-    let data = {message: message_id, channel: channel_id, guild: guild_id, reactions: {}};
+    let data = {message: message_id, channel: channel_id, guild: guild_id, reactions: []};
     let msg = new msgs(data);
     
     let newMessage = await msg.save();
