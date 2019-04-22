@@ -114,7 +114,7 @@ client.on("ready", () => {
             .then(msg => {
                 // React for emojis we have registered
                 for(let emoji in reactionData[msg_id].reactions) {
-                    if(emoji !== undefined)
+                    if(emoji !== undefined && emoji !== "undefined")
                         msg.react(emoji).catch(err => console.error(err));
                 }
                 // Also collect emojis that are of us and make sure they are unreacted if not registered anymore
