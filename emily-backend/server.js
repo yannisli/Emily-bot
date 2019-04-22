@@ -72,6 +72,14 @@ app.get("*", (req, res) => {
         res.sendFile(path.join(__dirname, "../front/build/index.html"));
 });
 
+const http = express.createServer();
+
+http.get("*", (req, res) => {
+    res.redirect("https://" + req.headers.host + req.url);
+});
+
+http.listen(80, () => { console.log("HTTP listening on 80 to redirect to https")});
+
 const port = process.env.PORT || 80;
 
 server.listen(port, () => {
