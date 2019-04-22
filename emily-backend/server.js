@@ -27,7 +27,8 @@ const app = express();
 
 const options = {
     key: fs.readFileSync('./emi.gg.key', 'utf8'),
-    cert: fs.readFileSync('./emi.gg.pem', 'utf8')
+    cert: fs.readFileSync('./emi.gg.pem', 'utf8'),
+    ca: fs.readFileSync('./ca.pem', 'utf8')
 };
 console.log(options);
 const https = require("https");
