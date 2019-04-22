@@ -72,8 +72,10 @@ app.get("*", (req, res) => {
         res.sendFile(path.join(__dirname, "../front/build/index.html"));
 });
 
-const http = require("http").createServer({}, (req, res) => {
-    res.redirect("https://" + req.headers.host + req.url);
+
+const http = require("http").createServer((req, res) => {
+    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+    res.end();
 });
 
 
