@@ -9,6 +9,7 @@ const initialState = {
     loadingGuild: false,
     loadedGuild: false,
     redirecting: false,
+    error: null
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,7 +17,10 @@ const reducer = (state = initialState, action) => {
     let newState = Object.assign({}, state);
 
     switch(action.type) {
-
+        case "SET_BOARD_ERROR": {
+            newState.error = action.data;
+            return newState;
+        }
         case "BOT_REDIRECT_DONE": {
             newState.redirecting = false;
             return newState;

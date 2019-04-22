@@ -22,6 +22,11 @@ class Dashboard extends Component {
         if(this.props.Loaded && this.props.User === null) {
             return <Redirect to="/"/>;
         }
+        if(this.props.LoadError !== null) {
+            return <div className="board-error">
+                {this.props.LoadError}
+            </div>
+        }
         if(!this.props.location.pathname.includes("guild")) {
             
 
@@ -63,13 +68,18 @@ class Dashboard extends Component {
         document.title = "Emily | Dashboard";
         
         this.props.dispatch({type: "LOADING_GUILDS"});
-
+        this.props.dispatch({type: "SET_BOARD_ERROR", data: null});
         fetch(`/api/discord/@me/guilds`).then(res => {
 
             if(!res.ok) {
                 console.error(res.status);
                 // If its unauthorized we should set state to redirect back to home
-                this.props.dispatch({type: "GUILDS_LOADED", data: null});
+                if(res.status === 401)
+                    this.props.dispatch({type: "GUILDS_LOADED", data: null});
+                else
+                {
+                    this.props.dispatch({type: "SET_BOARD_ERROR", data: `Internal server responded with ${res.status}, please try again later`});
+                }
             }
             else
             {
@@ -87,6 +97,7 @@ export default withRouter(connect(state => {
         Selected: state.core.selectedGuild,
         Loading: state.core.loadingGuilds,
         Loaded: state.core.loadedGuilds,
-        User: state.core.user
+        User: state.core.user,
+        LoadError: state.core.error
     }
 })(Dashboard));
