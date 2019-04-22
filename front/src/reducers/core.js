@@ -8,7 +8,7 @@ const initialState = {
     selectedGuildData: null,
     loadingGuild: false,
     loadedGuild: false,
-    redirecting: false
+    redirecting: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -16,6 +16,7 @@ const reducer = (state = initialState, action) => {
     let newState = Object.assign({}, state);
 
     switch(action.type) {
+
         case "BOT_REDIRECT_DONE": {
             newState.redirecting = false;
             return newState;

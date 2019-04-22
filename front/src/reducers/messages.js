@@ -3,13 +3,18 @@ const initialState = {
     loading: false,
     loaded: false,
     creating: false,
-    members: null
+    members: null,
+    error: null
 };
 
 const reducer = (state = initialState, action) => {
     let newState = Object.assign({}, state);
 
     switch(action.type) {
+        case "SET_ERROR": {
+            newState.error = action.data;
+            return newState;
+        }
         case "MESSAGE_EDITED": {
             let newData = Object.assign({}, newState.data);
 

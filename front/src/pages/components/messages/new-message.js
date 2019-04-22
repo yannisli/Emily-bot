@@ -97,6 +97,13 @@ const NewMessage = props => {
             </div>
         </div>
     }
+    else if(sending === true) {
+        return <div className="message-container editing">
+            <div className="message-header">
+                Sending server request...
+            </div>
+        </div>
+    }
     let channelList = [];
     if(showingChannelDrop)
     {
@@ -144,6 +151,9 @@ const NewMessage = props => {
                 setSelectedMessage(messages[i]);
             }} key={messages[i].id} className="message-dropdown-content smaller"><span>{messages[i].id}</span><span style={{color: 'gray'}}>{c}</span></div>);
         }
+        if(loadingMessages) {
+            messageList.push(<div key="loading">Loading messages...</div>);
+        }
         if(messages.length > 0) {
             messageList.push(<div key="loadmore" onClick={() => {
                 setLoadingMessages(true);
@@ -166,6 +176,7 @@ const NewMessage = props => {
                 Load more messages
             </div>);
         }
+        
         inners = [<div key = "header" className="message-header">Registering existing Message...</div>, 
             <div style={{position: 'relative', width: '100%'}}key="Channel">
                 <div onClick={() => {
@@ -219,6 +230,7 @@ const NewMessage = props => {
                     message_id: selectedMessage.id,
                     channel_id: selectedChannel.id
                 };
+                setSending(true);
                 fetch(`/api/messages/guild/${props.Guild.id}/register`,
                 {
                     method: "POST",

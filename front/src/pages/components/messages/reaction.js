@@ -19,6 +19,7 @@ const Reaction = props => {
 
     const [sendingDelete, setSendingDelete] = useState(false);
 
+    const [err, setErr] = useState(null);
 
     const [isAnimated, setAnimated] = useState(true);
 
@@ -43,7 +44,7 @@ const Reaction = props => {
                 <div className="reaction-sub">Emoji: {props.Emoji}</div>
                 <div className="reaction-sub">Role: {props.Role.id}</div>
             </div>
-            {!editing && !deleting && <div className="reaction-line">
+            {err === null && !editing && !deleting && <div className="reaction-line">
                 <div className="reaction-button" onClick={() => setEditing(true)}>
                     Edit
                 </div>
@@ -53,7 +54,7 @@ const Reaction = props => {
                 </div>
             </div>
             }
-            {deleting && !sendingDelete && <div className="reaction-line">
+            {err === null && deleting && !sendingDelete && <div className="reaction-line">
                 <div className="reaction-button" onClick={() => {
                     
                     setSendingDelete(true);
@@ -63,6 +64,9 @@ const Reaction = props => {
                     }).then(res => {
                         
                         if(!res.ok) {
+                            setErr(`Response not OK Status Code ${res.status}`);
+
+                            setTimeout(() => setErr(null), 5000);
                             console.error(res.status);
                             setSendingDelete(false);
                         }
@@ -82,9 +86,14 @@ const Reaction = props => {
                 </div>
             </div>
             }
-            {sendingDelete && <div className="reaction-line">
+            {err === null && sendingDelete && <div className="reaction-line">
                 <div className="reaction-inline-notif">
                     Deleting...
+                </div>
+            </div>}
+            {err !== null && <div className="reaction-line">
+                <div className="reaction-inline-notif-error">
+                    {err}
                 </div>
             </div>}
         </div>

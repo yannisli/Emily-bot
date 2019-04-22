@@ -56,6 +56,12 @@ class Messages extends Component {
     render() {
         if(!this.props.Guild)
             throw new Error("GuildBoard was not assigned a Guild prop");
+        if(this.props.LoadError !== null)
+        {
+            return <div className="board-error">
+                {this.props.LoadError}
+            </div>
+        }
         if(this.props.Loading)
         {
             return [<div key="messages-loading">Loading Messages...</div>,<img key="messages-loading-svg" src={loading} alt="Loading" className="loading"/>];
@@ -107,11 +113,13 @@ class Messages extends Component {
             throw new Error("GuildBoard was not assigned a Guild prop");
         // Fetch messages
         this.props.dispatch({type: "LOADING_GUILD"});
+        this.props.dispatch({type: "SET_ERROR", data: null});
         fetch(`/api/messages/guild/${this.props.Guild.id}`).then(res => {
 
             if(!res.ok)
             {
                 console.error(res.status);
+                this.props.dispatch({type: "SET_ERROR", data: `Internal server responded with code ${res.status}, please try again later...`});
                 res.json().then(err => console.error(err));
                 this.props.dispatch({type: "GUILD_LOADED", data: null});
                 return;
@@ -139,6 +147,7 @@ export default connect(state => {
         Loaded: state.messages.loaded,
         GuildData: state.core.selectedGuildData,
         Creating: state.messages.creating,
-        Users: state.messages.members
+        Users: state.messages.members,
+        LoadError: state.messages.error
     }
 })(Messages);
