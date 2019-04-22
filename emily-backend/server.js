@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const logger = require("morgan");
 const url = require("url");
 
+const fs = require('fs');
+
 const mongoose = require("mongoose");
 
 require('dotenv').config();
@@ -23,7 +25,14 @@ mongoose.connection.on("error", console.error.bind(console, "MongoDB connection 
 
 const app = express();
 
-const server = require("http").Server(app);
+const options = {
+    key: fs.readFileSync('./emi.gg.key', 'utf8'),
+    cert: fs.readFileSync('./emi.gg.pem', 'utf8')
+};
+console.log(options);
+const https = require("https");
+
+const server = https.createServer(options, app);
 const io = require("socket.io")(server);
 
 io.on("connection", require("./api/bot").SocketOnConnect);
