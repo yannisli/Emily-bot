@@ -3,6 +3,8 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const logger = require("morgan");
 const url = require("url");
+const http = require("http");
+const https = require("https");
 
 const fs = require('fs');
 
@@ -25,15 +27,32 @@ mongoose.connection.on("error", console.error.bind(console, "MongoDB connection 
 
 const app = express();
 
-const options = {
-    key: fs.readFileSync('./emi.gg.key', 'utf8'),
-    cert: fs.readFileSync('./emi.gg.pem', 'utf8'),
-    ca: fs.readFileSync('./ca.pem', 'utf8')
-};
-console.log(options);
-const https = require("https");
+let hasKey = fs.existsSync("./" + process.env.PRIVATE_KEY) && fs.existsSync("./" + process.env.CERTIFICATE) && fs.existsSync("./" + process.env.CA_CERTIFICATE);
 
-const server = https.createServer(options, app);
+let server;
+
+if(hasKey) {
+    const options = {
+        key: fs.readFileSync("./" + process.env.PRIVATE_KEY, 'utf8'),
+        cert: fs.readFileSync("./" + process.env.CERTIFICATE, 'utf8'),
+        ca: fs.readFileSync("./" + process.env.CA_CERTIFICATE, 'utf8')
+    };
+    console.log(options);
+    server = https.createServer(options, app);
+
+    const httpServer = http.createServer((req, res) => {
+        res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
+        res.end();
+    });
+    
+    
+    
+    httpServer.listen(80, () => { console.log("HTTP listening on 80 to redirect to https")});
+}
+else
+{
+    server = http.createServer(app);
+}
 const io = require("socket.io")(server);
 
 io.on("connection", require("./api/bot").SocketOnConnect);
@@ -74,14 +93,7 @@ app.get("*", (req, res) => {
 });
 
 
-const http = require("http").createServer((req, res) => {
-    res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
-    res.end();
-});
 
-
-
-http.listen(80, () => { console.log("HTTP listening on 80 to redirect to https")});
 
 const port = process.env.PORT || 80;
 

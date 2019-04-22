@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import fetch from 'node-fetch';
 
 import { connect } from 'react-redux';
+import { isNullOrUndefined } from 'util';
 
 
 class UserCard extends Component {
@@ -27,7 +28,7 @@ class UserCard extends Component {
     render() {
         if(this.props.User === null) {
 
-            return <a href={`${process.env.REACT_APP_API_URI}/api/oauth2/login`} className="navbar-button pushRight">Login</a>
+            return <a href={`${process.env.REACT_APP_API_URI !== undefined && process.env.REACT_APP_API_URI !== null ? process.env.REACT_APP_API_URI : "http://localhost:80"}/api/oauth2/login`} className="navbar-button pushRight">Login</a>
         }
         else
         {
