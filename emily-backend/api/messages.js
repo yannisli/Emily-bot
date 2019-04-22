@@ -200,7 +200,7 @@ router.post("/message/:message_id/reaction/create", CatchAsync(async (req, res) 
 
     if(!SocketHasConnection())
     {
-        res.sendStatus(500).send("Bot is offline");
+        res.status(500).send("Bot is offline");
         return;
     }
 
