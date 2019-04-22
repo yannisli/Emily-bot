@@ -12,7 +12,7 @@ const catchAsync = fn => (req, res, next) => {
 };
 
 const discordGet = async (uri, authorization=`Bot ${process.env.BOT_TOKEN}`) => {
-    console.log("DiscordGet(", uri, authorization, ")");
+    //console.log("DiscordGet(", uri, authorization, ")");
     const response = await fetch(uri, {
         method: "GET",
         headers: {
@@ -28,7 +28,7 @@ const discordGet = async (uri, authorization=`Bot ${process.env.BOT_TOKEN}`) => 
     }
     else
     {
-        console.log(response.headers);
+        //console.log(response.headers);
         return response.status;
     }
 };
