@@ -23,31 +23,34 @@ class Dashboard extends Component {
             return <Redirect to="/"/>;
         }
         if(this.props.LoadError !== null) {
-            return <div className="board-error">
+            innerContents = <div className="board-error">
                 {this.props.LoadError}
             </div>
         }
-        if(!this.props.location.pathname.includes("guild")) {
-            
-
-            if(this.props.Loading)
-            {
-                innerContents = [<div style={{textAlign: 'center', width: '100%'}} key="Loading-div">Loading guild information...</div>,<img className="loading pushLeft pushRight" style={{alignSelf: 'flex-start'}}alt="Loading" key="loadingsvg" src={loading}/>];
-            }
-            else if(this.props.Loaded)
-            {
-                innerContents = <GuildList Guilds={this.props.Guilds}/>;
-                
-            }
-            
-        }
         else
         {
-            let id = this.props.location.pathname.split("/");
-            id = id[id.length-1];
-            if(this.props.Selected === null || this.props.Guilds[this.props.Selected].id !== id)
-                return <Redirect to="/dashboard"/>;
-            innerContents = <GuildBoard Guild={this.props.Guilds[this.props.Selected]}/>;
+            if(!this.props.location.pathname.includes("guild")) {
+                
+
+                if(this.props.Loading)
+                {
+                    innerContents = [<div style={{textAlign: 'center', width: '100%'}} key="Loading-div">Loading guild information...</div>,<img className="loading pushLeft pushRight" style={{alignSelf: 'flex-start'}}alt="Loading" key="loadingsvg" src={loading}/>];
+                }
+                else if(this.props.Loaded)
+                {
+                    innerContents = <GuildList Guilds={this.props.Guilds}/>;
+                    
+                }
+                
+            }
+            else
+            {
+                let id = this.props.location.pathname.split("/");
+                id = id[id.length-1];
+                if(this.props.Selected === null || this.props.Guilds[this.props.Selected].id !== id)
+                    return <Redirect to="/dashboard"/>;
+                innerContents = <GuildBoard Guild={this.props.Guilds[this.props.Selected]}/>;
+            }
         }
 
         return <div className="dashboard-root">
@@ -72,7 +75,7 @@ class Dashboard extends Component {
         fetch(`/api/discord/@me/guilds`).then(res => {
 
             if(!res.ok) {
-                console.error(res.status);
+                console.error(res);
                 // If its unauthorized we should set state to redirect back to home
                 if(res.status === 401)
                     this.props.dispatch({type: "GUILDS_LOADED", data: null});
