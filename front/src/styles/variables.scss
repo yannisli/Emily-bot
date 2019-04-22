@@ -235,3 +235,7 @@ $headerSize2: calc(10px + 2vmin);
 .button {
     cursor: pointer;
 }
+
+.smaller {
+    font-size: $fontSize;
+}

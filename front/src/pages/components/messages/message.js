@@ -4,6 +4,9 @@ import MessageContents from './message-contents';
 import ReactionList from './reaction-list';
 
 import store from '../../../store';
+import MessageTextarea from './message-textarea';
+
+import { TranspileFrontToBack } from './new-message';
 
 const Message = props => {
 
@@ -43,7 +46,33 @@ const Message = props => {
         buttons.push(<div key="delete" className={(editing || creating) ? "message-error-button disabled" : "message-error-button"} onClick={() => {if(creating) return; setDeleting(true)}}>Delete Message</div>);
         if(editing)
         {
-            buttons.push(<div key="confirm_edit" className="message-button">Confirm Edit</div>);
+            buttons.push(<div key="confirm_edit" className="message-button" onClick={() => {
+                let edittedText = document.getElementById("editarea").value;
+                if(edittedText.trim().length === 0) {
+                    setEditing(false);
+                    return;
+                }
+                
+                let transformed = TranspileFrontToBack(edittedText, props.Guild.roles, props.Guild.emojis, props.Users)
+                fetch(`/api/messages/message/${props.Message.id}/edit`, {
+                    method: "PUT",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({contents: transformed})
+                }).then(res => {
+                    setEditing(false);
+                    if(!res.ok)
+                    {
+                        // Display an error here
+                    }
+                    else
+                    {
+                        store.dispatch({type: "MESSAGE_EDITED", data: {message: props.Message.id, newContents: transformed}});
+                    }
+                }).catch(err => console.error(err));
+
+            }}>Confirm Edit</div>);
             buttons.push(<div key="canceledit" className="message-error-button" onClick={() => setEditing(false)}>Cancel</div>);
         }
     }
@@ -89,14 +118,14 @@ const Message = props => {
         </div>
         <span className="message-id">{props.Message.id}</span>
         {displayed &&
-            [<div key="contents" className="message-contents">
+            [!editing ? <div key="contents" className="message-contents">
                 <MessageContents Users={props.Users} Guild={props.Guild} MessageID={props.Message.id} Contents={props.Message.contents}/>
                 <br/>
                 <div className="message-attachments-container">
                     {attachments}
                     </div>
                 
-            </div>,
+            </div> : <MessageTextarea TextAreaID="editarea" Old={props.Message.contents} Users={props.Users} Guild={props.Guild} MsgData={props.MsgData}/>,
             ...buttons,
             <ReactionList Guild={props.Guild} Creating={creating} SetCreating={setCreating} MessageID={props.Message.id} Roles={props.Guild.roles} Reactions={props.MsgData.Messages[props.Message.id].reactions} key="reaction-list"/>
         ]

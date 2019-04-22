@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import fetch from 'node-fetch';
 
 import { connect } from 'react-redux';
-import { isNullOrUndefined } from 'util';
 
 
 class UserCard extends Component {

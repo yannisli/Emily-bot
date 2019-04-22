@@ -317,6 +317,45 @@ router.delete("/message/:message_id", CatchAsync(async (req, res) => {
     }
 }));
 
+router.put("/message/:message_id/edit", CatchAsync(async (req, res) => {
+
+    if(!await GetUserTokens(req, res)) {
+        res.sendStatus(401);
+        return;
+    }
+    if(!SocketHasConnection())
+    {
+        res.status(500).send("Bot is offline");
+        return;
+    }
+
+    let message_id = req.params.message_id;
+    let contents = req.body.contents;
+
+    if(!contents)
+    {
+        res.sendStatus(500);
+        return;
+    }
+
+    if(!ValidateSnowflake(message_id)) {
+        res.sendStatus(400);
+        return;
+    }
+
+    // Socket emit
+
+    SocketEmit("messageEdit", {contents: contents, message: message_id}, (reply) => {
+        if(reply.success !== undefined)
+        {
+            res.sendStatus(200);
+        }
+        else
+        {
+            res.status(500).send(reply.error);
+        }
+    });
+}));
 // Test
 router.get("/test_create/:message_id/:role_id/:emoji", CatchAsync(async (req, res) => {
 

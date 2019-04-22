@@ -3,8 +3,6 @@ const path = require("path");
 const bodyParser = require('body-parser');
 const logger = require("morgan");
 const url = require("url");
-const http = require("http");
-const https = require("https");
 
 const fs = require('fs');
 
@@ -32,15 +30,15 @@ let hasKey = fs.existsSync("./" + process.env.PRIVATE_KEY) && fs.existsSync("./"
 let server;
 
 if(hasKey) {
+    console.log("Does have key, starting as HTTPS");
     const options = {
         key: fs.readFileSync("./" + process.env.PRIVATE_KEY, 'utf8'),
         cert: fs.readFileSync("./" + process.env.CERTIFICATE, 'utf8'),
         ca: fs.readFileSync("./" + process.env.CA_CERTIFICATE, 'utf8')
     };
-    console.log(options);
-    server = https.createServer(options, app);
+    server = require("https").createServer(options, app);
 
-    const httpServer = http.createServer((req, res) => {
+    const httpServer = require("http").createServer((req, res) => {
         res.writeHead(301, { "Location": "https://" + req.headers['host'] + req.url });
         res.end();
     });
@@ -51,7 +49,8 @@ if(hasKey) {
 }
 else
 {
-    server = http.createServer(app);
+    console.log("Does not have key, starting as HTTP");
+    server = require("http").createServer(app);
 }
 const io = require("socket.io")(server);
 
@@ -95,7 +94,7 @@ app.get("*", (req, res) => {
 
 
 
-const port = process.env.PORT || 80;
+const port = process.env.PORT !== undefined ? process.env.PORT : hasKey ? 443 : 80;
 
 server.listen(port, () => {
     console.log(`Server now running on port ${port}`);

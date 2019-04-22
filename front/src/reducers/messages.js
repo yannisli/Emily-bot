@@ -10,6 +10,14 @@ const reducer = (state = initialState, action) => {
     let newState = Object.assign({}, state);
 
     switch(action.type) {
+        case "MESSAGE_EDITED": {
+            let newData = Object.assign({}, newState.data);
+
+            newData.Messages[action.data.message].contents = action.data.newContents;
+
+            newState.data = newData;
+            return newState;
+        }
         case "MESSAGE_DELETED": {
             let newData = Object.assign({}, newState.data);
 
@@ -58,14 +66,6 @@ const reducer = (state = initialState, action) => {
                     break;
                 }
             }
-
-            newState.data = newData;
-            return newState;
-        }
-        case "MESSAGE_DELETED": {
-            let newData = Object.assign({}, newState.data);
-
-            delete newData.Messages[action.data.message];
 
             newState.data = newData;
             return newState;

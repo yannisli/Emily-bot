@@ -9,6 +9,7 @@ import { GetHexaColor } from './role-span';
 
 const MessageTextarea = props => {
 
+    let textAreaID = props.TextAreaID !== undefined ? props.TextAreaID : "messagetext";
     const [start, setStart] = useState(-1);
 
     const [last, setLast] = useState(-1);
@@ -21,7 +22,7 @@ const MessageTextarea = props => {
     const [active, setActive] = useState(0);
 
     useEffect(() => {
-        let text = document.getElementById("messagetext");
+        let text = document.getElementById(textAreaID);
         if(!text)
             return;
 
@@ -59,7 +60,7 @@ const MessageTextarea = props => {
                     }
                     innerContents.push(<div onClick={() => {
                         // Replace from start to end with the autocompleted
-                        let e = document.getElementById("messagetext");
+                        let e = document.getElementById(textAreaID);
                         let sub = e.value.substr(0, start-1);
 
                         sub += ac[active];
@@ -93,7 +94,7 @@ const MessageTextarea = props => {
                     }
                     innerContents.push(<div onClick={() => {
                         // Replace from start to end with the autocompleted
-                        let e = document.getElementById("messagetext");
+                        let e = document.getElementById(textAreaID);
                         let sub = e.value.substr(0, start-1);
 
                         sub += ac[active];
@@ -134,7 +135,7 @@ const MessageTextarea = props => {
                     
                     innerContents.push(<div onClick={() => {
                         // Replace from start to end with the autocompleted
-                        let e = document.getElementById("messagetext");
+                        let e = document.getElementById(textAreaID);
                         let sub = e.value.substr(0, start-1);
 
                         sub += ac[active];
@@ -203,7 +204,8 @@ const MessageTextarea = props => {
                 }
             }
             }}  onInput={(e) => {
-            props.SetText(e.target.value);
+                if(props.SetText !== null && props.SetText !== undefined)
+                    props.SetText(e.target.value);
             e.target.style.height = "";
             e.target.style.height = e.target.scrollHeight + "px";
             // Every time we have input reevaluate?
@@ -345,7 +347,7 @@ const MessageTextarea = props => {
                 }
             }
             setLast(e.target.value.length);
-        }} id="messagetext" key="textarea" defaultValue={props.Old !== null ? props.Old : ""} placeholder="Contents of message" className="message-textarea">
+        }} id={textAreaID} key="textarea" defaultValue={props.Old !== null ? props.Old : ""} placeholder="Contents of message" className="message-textarea">
         </textarea>
         
     </div>

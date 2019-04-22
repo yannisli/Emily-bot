@@ -328,7 +328,12 @@ socket.on("registerMessage", data => {
     console.log("API server emitted registerMessage", data);
     let msg_id = data.message;
 
-    reactionData[msg_id] = data;
+    reactionData[msg_id] = {
+        channel_id: data.channel,
+        guild_id: data.guild,
+        message: msg_id,
+        reactions: {}
+    };
 });
 
 socket.on("createMessage", data => {
@@ -358,4 +363,28 @@ socket.on("createMessage", data => {
             reactions: {}
         });
     }).catch(err => console.error(err));
+});
+
+socket.on("messageEdit", data => {
+    console.log("API server emitted messageEdit", data);
+    if(!reactionData[data.message]) {
+        socket.emit("messageEdit", {error: "No message exists with that ID"});
+        return;
+    }
+    let guild = client.guilds.get(reactionData[data.message].guild_id);
+    let channel = guild.channels.get(reactionData[data.message].channel_id);
+
+    channel.fetchMessage(data.message).then(msg => {
+        msg.edit(data.contents).then(() => {
+            socket.emit("messageEdit", {success: "Success"});
+        }).catch(err => {
+            console.error(err);
+            socket.emit("messageEdit", {error: "Could not edit the message."});
+        });
+    }).catch(err => {
+        console.error(err);
+        socket.emit("messageEdit", {error: "Could not find that message"});
+    });
+        
+
 });

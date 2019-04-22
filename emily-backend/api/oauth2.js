@@ -114,7 +114,7 @@ router.get("/callback", CatchAsync(async (req, res) => {
     // Save Access_Token as a cookie
     res.cookie("access_token", json.access_token, {httpOnly: true, maxAge: json.expires_in * 1000});
     res.cookie("refresh_token", json.refresh_token, {httpOnly: true, maxAge: json.expires_in * 3000});
-    res.redirect(`/`);
+    res.redirect(301, `/`);
 }));
 
 router.get("*", (req, res) => res.sendStatus(404)); 

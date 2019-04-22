@@ -80,11 +80,25 @@ router.get("/guild/:id/members", CatchAsync(async (req, res) => {
 
     let results = await DiscordGet(`https://discordapp.com/api/guilds/${guild_id}/members?limit=${limit}&after=${after}`);
 
-    if(!results)
+    if(typeof(results) !== "object")
         res.sendStatus(results);
     else
         res.status(200).json(results);
     
+}));
+
+router.get("/channels/:channel_id/messages", CatchAsync(async (req, res) => {
+
+    let channel_id = req.params.channel_id;
+
+    let before = req.query.before;
+
+    let results = await DiscordGet(`https://discordapp.com/api/channels/${channel_id}/messages${before !== undefined ? `?before=${before}` : ""}`);
+
+    if(typeof(results) !== "object")
+        res.sendStatus(results);
+    else
+        res.status(200).json(results);
 }));
 router.get("*", (req, res) => res.sendStatus(404));
 
