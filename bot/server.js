@@ -143,77 +143,12 @@ client.on("ready", () => {
 
 });
 
+client.on("disconnect", (event) => {
+    console.log("Bot was disconnected, code ", event.code);
+    console.log("Reason: ", event.reason);
 
-client.on("message", msg => {
-    /*
-    if(!msg.guild) return;
-    if(msg.content.startsWith('!roles'))
-    {
-        console.log(msg.guild.roles);
-        let arr = msg.guild.roles.array();
-        let reply = "";
-        for(let i = 0; i < arr.length; i++)
-        {
-            reply += `**${arr[i].name}**\nID: ${arr[i].id}\nPermissions: ${arr[i].permissions}\n\n`;
-        }
-        msg.channel.send({embed: {
-            color: 3342130,
-            author: {
-                name: msg.author.username,
-                icon_url: msg.author.avatarURL
-            },
-            title: "Roles List",
-            url: "http://emi.gg",
-            description: reply,
-            timestamp: new Date(),
-            footer: {
-                icon_url: client.user.avatarURL,
-                text: "Requested @"
-            }
-        }});
-        msg.delete();
-    }
-    else if(msg.content.startsWith('!try')) {
-        
-        msg.channel.send("<@272421186166587393>\n<a:pepejam:560323934151507978>\n<@&555612418500329472>\n<:monkaThink:545487018541580299>");   
-        msg.channel.send({embed: {
-            color: 3342130,
-            author: {
-                name: msg.author.username,
-                icon_url: msg.author.avatarURL
-            },
-            title: "Roles List",
-            url: "http://emi.gg",
-            description: "<@272421186166587393>\n<a:pepejam:560323934151507978>\n<@&555612418500329472>\n<:monkaThink:545487018541580299>",
-            timestamp: new Date(),
-            footer: {
-                icon_url: client.user.avatarURL,
-                text: "Requested @"
-            }
-        }});
-        msg.delete();
-    }
-    else if(msg.content.startsWith("!fetch")) {
-        let args = msg.content.replace("!fetch", "").trim();
-        args = args.split(" ");
-        console.log("args:",args);
-        let ch = msg.channel;
-        fetch(`${process.env.API_URI}/api/${args[0]}`).then(res => {
-
-            if(!res.ok) {
-                ch.send(`Received response code ${res.status}`)
-                
-            }
-            else
-            {
-                res.json().then(json => {
-                    ch.send(`Response from API:\n${JSON.stringify(json)}`)
-                   
-                });
-            }
-            
-        });
-    }*/
+    console.log("Attempting to reconnect...");
+    setTimeout(() => client.login(process.env.BOT_TOKEN), 5000);
 });
 
 const io = require("socket.io-client");
