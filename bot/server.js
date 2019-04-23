@@ -151,6 +151,10 @@ client.on("disconnect", (event) => {
     setTimeout(() => client.login(process.env.BOT_TOKEN), 5000);
 });
 
+client.on("error", (err) => {
+    console.log("Bot encountered a connection error", err);
+});
+
 const io = require("socket.io-client");
 
 const socket = io(`${process.env.API_URI}?token=${process.env.SOCKET_TOKEN}`)
