@@ -27,7 +27,7 @@ class UserCard extends Component {
     render() {
         if(this.props.User === null) {
 
-            return <a href={`${process.env.REACT_APP_API_URI !== undefined && process.env.REACT_APP_API_URI !== null ? process.env.REACT_APP_API_URI : "http://localhost:80"}/api/oauth2/login`} className="navbar-button pushRight">Login</a>
+            return <a href={`${process.env.REACT_APP_API_URI !== undefined && process.env.REACT_APP_API_URI !== null ? process.env.REACT_APP_API_URI : "http://localhost:80"}/api/oauth2/login`} className="navbar-button pushRight">Login via Discord</a>
         }
         else
         {

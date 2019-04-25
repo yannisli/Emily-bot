@@ -15,7 +15,7 @@ import twitchLogo from '../images/twitch.svg';
 
 import NavBar from '../components/navbar';
 
-import Announcement from '../components/announcement';
+//import Announcement from '../components/announcement';
 
 class Home extends Component {
 
@@ -25,12 +25,11 @@ class Home extends Component {
             <NavBar/>
             <div className="home-outer">
                 <div className="home-inner">
-                    <Announcement/>
                     <header className="home-header">
                         Emily Bot
                     </header>
                     <div className="home-contents">
-                        Hi! Emily Bot is designed to be a server administration bot for the Discord app to help remove the need for server administrators or moderators to assign individual roles to each individual and is meant to present a clean, and interactable front-end UI for management - Eliminating the need to remember how to use a command-line and streamlining the process to get the Bot up and functional in a server, rather than digging through documentation or a manual on how to set it up. There is more functionality to be planned for later past role administration, however the current development focus is getting the bot up and running with this core functionality in mind.
+                        Hi! Emily Bot is designed to be a server administration bot for the Discord app to help remove the need for server administrators or moderators to assign individual roles to each individual and is meant to present a clean, and interactable front-end UI for management - Eliminating the need to remember how to use a command-line and streamlining the process to get the Bot up and functional in a server, rather than digging through documentation or a manual on how to set it up.
                     </div>
 
                     <header className="home-header">
