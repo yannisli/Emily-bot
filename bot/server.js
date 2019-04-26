@@ -202,7 +202,7 @@ socket.on("reactionEdit", data => {
     let curEmoji = data.data.curEmoji;
 
     if(reactionData[msg_id]) {
-        reactionData[msg_id].reactions[curEmoji] = newReaction;
+        reactionData[msg_id].reactions[data.data.newEmoji] = newReaction;
     } else
         return;
 
