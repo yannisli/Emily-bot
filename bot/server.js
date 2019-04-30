@@ -142,7 +142,77 @@ client.on("ready", () => {
     }
 
 });
+client.on("messageDelete", msg => {
+    
+    if(reactionData[msg.id])
+    {
+        delete reactionData[msg.id];
+        fetch(`${process.env.API_URI}/api/messages/message/${msg.id}/bot`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': process.env.BOT_TOKEN
+            }
+        }).catch(err => console.error(`Failed to POST deleted message notif\n${err}`));
+    }
+});
+client.on("channelDelete", (channel) => {
 
+    if(channel.type !== "text")
+        return;
+    if(!channel.guild)
+        return;
+    // Delete reaction data that are in this channel and then tell back-end
+    let found = false;
+    for(let msg_id in reactionData)
+    {
+        if(reactionData[msg_id].channel_id === channel.id)
+        {
+            delete reactionData[msg_id];
+            found = true;
+        }
+    }
+    if(found) {
+        fetch(`${process.env.API_URI}/api/messages/guild/${channel.guild.id}/channel/${channel.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': process.env.BOT_TOKEN
+            }
+        }).catch(err => console.error(`Failed to POST deleted channel notif\n${err}`));
+    }
+});
+
+client.on("guildDelete", (guild) => {
+
+    let found = false;
+    for(let msg_id in reactionData)
+    {
+        if(reactionData[msg_id].guild_id === guild.id)
+        {
+            delete reactionData[msg_id];
+            found = true;
+        }
+    }
+    if(found) {
+        fetch(`${process.env.API_URI}/api/messages/guild/${guild.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': process.env.BOT_TOKEN
+            }
+        }).catch(err => console.error(`Failed to POST deleted guild notif\n${err}`));
+    }
+});
+
+client.on("message", msg => {
+    if(msg.content.startsWith("!test"))
+    {
+        fetch(`${process.env.API_URI}/api/messages/guild/${msg.guild.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': process.env.BOT_TOKEN
+            }
+        }).catch(err => console.error(`Failed to POST deleted guild notif\n${err}`));
+    }
+});
 client.on("disconnect", (event) => {
     console.log("Bot was disconnected, code ", event.code);
     console.log("Reason: ", event.reason);

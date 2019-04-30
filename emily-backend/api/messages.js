@@ -380,6 +380,54 @@ router.get("/test_create/:message_id/:role_id/:emoji", CatchAsync(async (req, re
     }
 }));
 
+router.delete("/message/:message_id/bot", CatchAsync(async (req, res) => {
+    if(process.env.BOT_TOKEN !== req.headers.authorization)
+    {
+        res.sendStatus(401);
+    }
+
+    msgs.findOneAndDelete({message: req.params.message_id});
+    console.log("Bot send delete request for message", req.params.message_id);
+
+    res.sendStatus(200);
+}));
+
+router.delete("/guild/:guild_id/channel/:channel_id", CatchAsync(async (req, res) => {
+
+    if(process.env.BOT_TOKEN !== req.headers.authorization)
+    {
+        res.sendStatus(401);
+    }
+
+    console.log("Bot send delete request for channel", req.params.channel_id, "in guild", req.params.guild_id);
+
+    msgs.deleteMany({channel: req.params.channel_id, guild: req.params.guild_id}, err => {
+        if(err)
+        {
+            console.error("Error deleteMany for channel", req.params.channel_id, "in guild", req.params.guild_id, err);
+        }
+    });
+
+    res.sendStatus(200);
+}));
+
+router.delete("/guild/:guild_id", CatchAsync(async (req, res) => {
+
+    if(process.env.BOT_TOKEN !== req.headers.authorization)
+    {
+        res.sendStatus(401);
+    }
+
+    console.log("Bot send delete request for guild", req.params.guild_id);
+
+    msgs.deleteMany({channel: req.params.guild_id}, err => {
+        if(err)
+        {
+            console.error("Error deleteMany for guild", req.params.guild_id, err);
+        }
+    });
+    res.sendStatus(200);
+}));
 router.get("*", (req, res) => res.sendStatus(404));
 
 module.exports = router;
