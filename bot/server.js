@@ -106,9 +106,16 @@ client.on("ready", () => {
     // After 3 seconds, look for the messages we have registered and add reactions to them, and remove reactions that aren't registered
 
     for(let msg_id in reactionData) {
-
+        console.log("Fetching for ", msg_id);
+        console.log(reactionData[msg_id]);
         let guild = client.guilds.get(reactionData[msg_id].guild_id);
+        if(!guild) {
+            continue;
+        }
         let channel = guild.channels.get(reactionData[msg_id].channel_id);
+        if(!channel) {
+            continue;
+        }
 
         channel.fetchMessage(msg_id)
             .then(msg => {
@@ -205,14 +212,14 @@ client.on("guildDelete", (guild) => {
 client.on("message", msg => {
     if(msg.content.startsWith("!>colorcode"))
     {
-        let args = msg.content.split(" ", msg.content);
-        if(args.length < 2)
+        let msgArgs = msg.content.split(" ");
+        if(msgArgs.length < 2)
         {
             msg.channel.send("Invalid Syntax For Color Code!\nSyntax should be !>colorcode HEXADECIMAL_COLORCODE");
         }
         else
         {
-            let code = args[1];
+            let code = msgArgs[1];
             if(code.length !== 6)
             {
                 msg.channel.send("Invalid Hexadecimal Code!");
@@ -229,7 +236,8 @@ client.on("message", msg => {
                 }
                 else
                 {
-                    let decimalColor = parseInt(result, 10);
+                    let decimalColor = parseInt(result[0], 16);
+
 
                     msg.channel.send({embed: {
                         color: decimalColor,
