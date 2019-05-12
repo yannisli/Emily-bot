@@ -203,14 +203,46 @@ client.on("guildDelete", (guild) => {
 });
 
 client.on("message", msg => {
-    if(msg.content.startsWith("!test"))
+    if(msg.content.startsWith("!>colorcode"))
     {
-        fetch(`${process.env.API_URI}/api/messages/guild/${msg.guild.id}`, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': process.env.BOT_TOKEN
+        let args = msg.content.split(" ", msg.content);
+        if(args.length < 2)
+        {
+            msg.channel.send("Invalid Syntax For Color Code!\nSyntax should be !>colorcode HEXADECIMAL_COLORCODE");
+        }
+        else
+        {
+            let code = args[1];
+            if(code.length !== 6)
+            {
+                msg.channel.send("Invalid Hexadecimal Code!");
             }
-        }).catch(err => console.error(`Failed to POST deleted guild notif\n${err}`));
+            else
+            {
+                let regex = /([0-9ABCDEF]{6})/g;
+
+                let result = code.match(regex);
+
+                if(result === null)
+                {
+                    msg.channel.send("Invalid Hexadecimal Code!");
+                }
+                else
+                {
+                    let decimalColor = parseInt(result, 10);
+
+                    msg.channel.send({embed: {
+                        color: decimalColor,
+                        author: {
+                            name: `Requested by ${msg.author.username}`,
+                            icon_url: msg.author.avatarURL
+                        },
+                        title: `Color of #${code}`,
+                        timestamp: new Date()
+                    }});
+                }
+            }
+        }
     }
 });
 client.on("disconnect", (event) => {
